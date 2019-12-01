@@ -25,7 +25,7 @@ public abstract class SpringJavaFXApplication extends Application {
 
     @Override
     public void init() {
-        SpringApplication application = new SpringApplication(this.getClass().getSuperclass());
+        SpringApplication application = new SpringApplication(this.getClass());
         application.setBannerMode(Banner.Mode.OFF);
         applicationContext = application.run(ARGUMENTS);
     }
