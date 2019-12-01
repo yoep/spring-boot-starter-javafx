@@ -1,4 +1,4 @@
-package org.github.spring.boot.javafx.exceptions;
+package org.github.spring.boot.javafx.view;
 
 public class ViewNotFoundException extends RuntimeException {
     public ViewNotFoundException(String view, Exception ex) {

@@ -1,4 +1,4 @@
-package org.github.spring.boot.javafx.exceptions;
+package org.github.spring.boot.javafx.ui.scale;
 
 /**
  * Defines the exception that the scale aware scene is missing from the controller at initialization.

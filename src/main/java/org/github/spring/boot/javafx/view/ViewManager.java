@@ -2,8 +2,6 @@ package org.github.spring.boot.javafx.view;
 
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import org.github.spring.boot.javafx.exceptions.PrimaryWindowNotAvailableException;
-import org.github.spring.boot.javafx.exceptions.WindowNotFoundException;
 
 public interface ViewManager {
     /**
@@ -26,6 +24,14 @@ public interface ViewManager {
      * @return Returns the total amount of shown windows.
      */
     int getTotalWindows();
+
+    /**
+     * Initialize the window manager by with the primary stage of the JavaFX application.
+     *
+     * @param primaryStage The primary stage of JavaFX.
+     * @param scene        The scene for the primary stage.
+     */
+    void initialize(Stage primaryStage, Scene scene);
 
     /**
      * Get the primary window of the application.

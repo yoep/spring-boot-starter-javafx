@@ -5,7 +5,6 @@ import javafx.scene.Scene;
 import javafx.scene.layout.Region;
 import javafx.scene.transform.Scale;
 import javafx.stage.Window;
-import org.github.spring.boot.javafx.exceptions.MissingScaleAwarePropertyException;
 
 /**
  * Abstract implementation of {@link ScaleAware} for scaling the scene during initialization.

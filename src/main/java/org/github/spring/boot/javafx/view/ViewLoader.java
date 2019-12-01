@@ -13,8 +13,6 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
-import org.github.spring.boot.javafx.exceptions.PrimaryWindowNotAvailableException;
-import org.github.spring.boot.javafx.exceptions.ViewNotFoundException;
 import org.github.spring.boot.javafx.text.Text;
 import org.github.spring.boot.javafx.ui.scale.ScaleAware;
 import org.github.spring.boot.javafx.ui.size.SizeAware;

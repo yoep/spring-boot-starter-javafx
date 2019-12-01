@@ -10,14 +10,10 @@ import lombok.EqualsAndHashCode;
 import lombok.RequiredArgsConstructor;
 import lombok.Value;
 import lombok.extern.slf4j.Slf4j;
-import org.github.spring.boot.javafx.exceptions.PrimaryWindowAlreadyPresentException;
-import org.github.spring.boot.javafx.exceptions.PrimaryWindowNotAvailableException;
-import org.github.spring.boot.javafx.exceptions.WindowNotFoundException;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
 
-import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,7 +26,6 @@ public class ViewManagerImpl implements ViewManager {
     private final ConfigurableApplicationContext applicationContext;
 
     private ViewManagerPolicy policy = ViewManagerPolicy.CLOSEABLE;
-
 
     //region Getters & Setters
 
@@ -64,43 +59,35 @@ public class ViewManagerImpl implements ViewManager {
 
     @Override
     public Stage getWindow(String name) throws WindowNotFoundException {
-        for (Window window : windows) {
-            if (window.getStage().getTitle().equals(name)) {
-                return window.getStage();
-            }
-        }
+        return windows.stream()
+                .filter(e -> e.getStage().getTitle().equalsIgnoreCase(name))
+                .findFirst()
+                .map(Window::getStage)
+                .orElseThrow(() -> new WindowNotFoundException(name));
+    }
 
-        throw new WindowNotFoundException(name);
+    @Override
+    public void initialize(Stage primaryStage, Scene scene) {
+        Assert.notNull(primaryStage, "primaryStage cannot be null");
+        Assert.notNull(scene, "scene cannot be null");
+        addWindowView(primaryStage, scene, true);
     }
 
     @Override
     public void addWindowView(Stage window, Scene view) {
         Assert.notNull(window, "window cannot be null");
         Assert.notNull(view, "view cannot be null");
-
-        try {
-            Field primaryField = Stage.class.getDeclaredField("primary");
-            primaryField.setAccessible(true);
-            Boolean isPrimaryStage = (Boolean) primaryField.get(window);
-
-            if (isPrimaryStage && isPrimaryWindowAvailable()) {
-                throw new PrimaryWindowAlreadyPresentException();
-            }
-
-            window.setOnHiding(onWindowClosingEventHandler());
-            windows.add(new Window(window, view, isPrimaryStage));
-            log.debug("Currently showing " + getTotalWindows() + " window(s)");
-        } catch (IllegalAccessException | NoSuchFieldException e) {
-            log.error(e.getMessage(), e);
-        }
+        addWindowView(window, view, false);
     }
 
     //endregion
 
     //region Functions
 
-    private boolean isPrimaryWindowAvailable() {
-        return windows.stream().anyMatch(Window::isPrimaryWindow);
+    private void addWindowView(Stage window, Scene view, boolean isPrimaryStage) {
+        window.setOnHiding(onWindowClosingEventHandler());
+        windows.add(new Window(window, view, isPrimaryStage));
+        log.debug("Currently showing " + getTotalWindows() + " window(s)");
     }
 
     private EventHandler<WindowEvent> onWindowClosingEventHandler() {
@@ -136,7 +123,7 @@ public class ViewManagerImpl implements ViewManager {
 
     @Value
     @AllArgsConstructor
-    private class Window {
+    private static class Window {
         private Stage stage;
         private Scene scene;
         private boolean primaryWindow;
