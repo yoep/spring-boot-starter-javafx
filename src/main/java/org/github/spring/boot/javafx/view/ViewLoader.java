@@ -13,7 +13,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
-import org.github.spring.boot.javafx.text.Text;
+import org.github.spring.boot.javafx.text.LocaleText;
 import org.github.spring.boot.javafx.ui.scale.ScaleAware;
 import org.github.spring.boot.javafx.ui.size.SizeAware;
 import org.springframework.context.ApplicationContext;
@@ -31,19 +31,19 @@ public class ViewLoader {
 
     private final ApplicationContext applicationContext;
     private final ViewManager viewManager;
-    private final Text text;
+    private final LocaleText localeText;
 
     /**
      * Intialize a new instance of {@link ViewLoader}.
      *
      * @param applicationContext Set the current application context.
      * @param viewManager        Set the view manager to store the views in.
-     * @param text             Set the UI text manager.
+     * @param localeText             Set the UI text manager.
      */
-    public ViewLoader(ApplicationContext applicationContext, ViewManager viewManager, Text text) {
+    public ViewLoader(ApplicationContext applicationContext, ViewManager viewManager, LocaleText localeText) {
         this.applicationContext = applicationContext;
         this.viewManager = viewManager;
-        this.text = text;
+        this.localeText = localeText;
     }
 
     /**
@@ -127,7 +127,7 @@ public class ViewLoader {
      */
     private SceneInfo load(String view) throws ViewNotFoundException {
         Assert.hasText(view, "view cannot be empty");
-        FXMLLoader loader = new FXMLLoader(getClass().getResource(VIEW_DIRECTORY + view), text.getResourceBundle());
+        FXMLLoader loader = new FXMLLoader(getClass().getResource(VIEW_DIRECTORY + view), localeText.getResourceBundle());
 
         loader.setControllerFactory(applicationContext::getBean);
 
@@ -146,7 +146,7 @@ public class ViewLoader {
     }
 
     private Pane loadComponent(FXMLLoader loader) {
-        loader.setResources(text.getResourceBundle());
+        loader.setResources(localeText.getResourceBundle());
 
         try {
             return loader.load();

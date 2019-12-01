@@ -1,7 +1,7 @@
 package org.github.spring.boot.javafx.text;
 
 /**
- * Defines a message resource for {@link Text}.
+ * Defines a message resource for {@link LocaleText}.
  */
 public interface Message {
     /**

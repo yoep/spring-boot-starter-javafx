@@ -11,19 +11,23 @@ import org.springframework.stereotype.Component;
 
 import java.util.Locale;
 
+/**
+ * Get the localized text for the given message key.
+ * This class uses Spring's {@link MessageSourceResourceBundle} for retrieving the locale strings.
+ */
 @Getter
 @Slf4j
 @Component
-public class Text {
+public class LocaleText {
     private final MessageSourceAccessor messageSource;
     private final MessageSourceResourceBundle resourceBundle;
 
     /**
-     * Initialize a new instance of {@link Text}.
+     * Initialize a new instance of {@link LocaleText}.
      *
      * @param messageSource set the message source to use.
      */
-    public Text(ResourceBundleMessageSource messageSource) {
+    public LocaleText(ResourceBundleMessageSource messageSource) {
         this.messageSource = new MessageSourceAccessor(messageSource);
         this.resourceBundle = new MessageSourceResourceBundle(messageSource, Locale.getDefault());
     }
