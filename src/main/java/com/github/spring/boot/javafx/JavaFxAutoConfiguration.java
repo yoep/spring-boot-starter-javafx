@@ -4,6 +4,6 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
-@ComponentScan("org.github.spring.boot.javafx")
+@ComponentScan("com.github.spring.boot.javafx")
 public class JavaFxAutoConfiguration {
 }
