@@ -15,8 +15,6 @@ import java.util.Locale;
 @Slf4j
 @Component
 public class Text {
-    public static final String DIRECTORY = "lang/";
-
     private final MessageSourceAccessor messageSource;
     private final MessageSourceResourceBundle resourceBundle;
 
