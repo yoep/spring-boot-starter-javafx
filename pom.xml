@@ -10,7 +10,7 @@
         <version>2.1.9.RELEASE</version>
     </parent>
 
-    <groupId>org.github</groupId>
+    <groupId>com.github.yoep</groupId>
     <artifactId>spring-boot-starter-javafx</artifactId>
     <version>1.0.0</version>
     <packaging>jar</packaging>
@@ -32,12 +32,12 @@
         <!-- Spring -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-logging</artifactId>
+            <artifactId>spring-boot</artifactId>
             <scope>provided</scope>
         </dependency>
         <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-context</artifactId>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-logging</artifactId>
             <scope>provided</scope>
         </dependency>
 
