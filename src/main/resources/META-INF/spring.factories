@@ -1,2 +1,2 @@
-org.springframework.boot.autoconfigure.EnableAutoConfiguration=\ 
-    org.github.spring.boot.javafx.JavaFxAutoConfiguration
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+    com.github.spring.boot.javafx.JavaFxAutoConfiguration
