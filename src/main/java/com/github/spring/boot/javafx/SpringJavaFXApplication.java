@@ -13,11 +13,24 @@ public abstract class SpringJavaFXApplication extends Application {
 
     protected ApplicationContext applicationContext;
 
+    /**
+     * Launch a JavaFX application with for the given class and program arguments.
+     *
+     * @param appClass The class to launch the JavaFX application for.
+     * @param args The program arguments.
+     */
+    @SuppressWarnings("unused")
     public static void launch(Class<? extends Application> appClass, String... args) {
         ARGUMENTS = args;
         Application.launch(appClass, args);
     }
 
+    /**
+     * Launch a JavaFX application with the given program arguments.
+     *
+     * @param args The program arguments.
+     */
+    @SuppressWarnings("unused")
     public static void launch(String... args) {
         ARGUMENTS = args;
         Application.launch(args);
