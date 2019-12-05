@@ -11,9 +11,11 @@ public abstract class Icons {
     public static final String DOWNLOAD = "\uf019";
     public static final String ELLIPSIS_V = "\uf142";
     public static final String EXCLAMATION = "\uf12a";
+    public static final String EYE = "\uf06e";
     public static final String FILE = "\uf15b";
     public static final String FILTER = "\uf0b0";
     public static final String FOLDER_OPEN = "\uf07c";
+    public static final String HEART = "\uf004";
     public static final String HELP = "\uf059";
     public static final String IMAGE = "\uf03e";
     public static final String MINUS = "\uf068";
@@ -33,6 +35,9 @@ public abstract class Icons {
     public static final String SORT_ALPHA_DESC = "\uf15e";
     public static final String SPINNER = "\uf110";
     public static final String SPOTIFY = "\uf1bc";
+    public static final String STAR = "\uf005";
+    public static final String STAR_HALF = "\uf089";
+    public static final String STAR_HALF_EMPTY = "\uf123";
     public static final String VOLUME_LOW = "\uf027";
     public static final String VOLUME_MAX = "\uf028";
     public static final String VOLUME_OFF = "\uf026";
