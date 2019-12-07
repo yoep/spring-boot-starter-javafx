@@ -1,9 +1,17 @@
 package com.github.spring.boot.javafx.font.controls;
 
+/**
+ * @deprecated Use the unicode's from the classes themselves.
+ * @see Icon
+ * @see IconRegular
+ * @see IconSolid
+ */
+@Deprecated
 public abstract class Icons {
     public static final String ARROW_CIRCLE_LEFT = "\uf0a8";
     public static final String BAN = "\uf05e";
     public static final String CHECK_MARK = "\uf00c";
+    public static final String CIRCLE = "\uf111";
     public static final String COG = "\uf013";
     public static final String COGS = "\uf085";
     public static final String COMPACT_DISK = "\uf51f";

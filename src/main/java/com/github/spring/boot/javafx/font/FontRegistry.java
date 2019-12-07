@@ -6,6 +6,7 @@ import org.springframework.util.Assert;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 /**
  * Registry for loading additional fonts into JavaFX.
@@ -57,7 +58,8 @@ public class FontRegistry {
 
     private Font loadFontResource(String filename, double size) {
         URL resource = getClass().getResource(FONT_DIRECTORY + filename);
-        Font font = Font.loadFont(resource.toExternalForm(), size);
+        Font font = Optional.ofNullable(Font.loadFont(resource.toExternalForm(), size))
+                .orElseThrow(() -> new FontException(filename));
 
         loadedFonts.put(filename, font);
 
@@ -65,6 +67,6 @@ public class FontRegistry {
     }
 
     private Font createFontFromAlreadyLoadedFont(Font font, double size) {
-        return new Font(font.getFamily(), size);
+        return Font.font(font.getFamily(), size);
     }
 }

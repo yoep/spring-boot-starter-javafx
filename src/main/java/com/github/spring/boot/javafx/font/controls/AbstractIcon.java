@@ -1,20 +1,28 @@
 package com.github.spring.boot.javafx.font.controls;
 
+import com.github.spring.boot.javafx.font.FontRegistry;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.scene.control.Label;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
 import lombok.extern.slf4j.Slf4j;
-import com.github.spring.boot.javafx.font.FontRegistry;
+import org.springframework.util.Assert;
 
 import java.util.Optional;
 import java.util.function.Consumer;
 
+/**
+ * Abstract implementation of a Font Awesome icon that extends the {@link Label}.
+ * This class loads the font file and prevents any changes to the initial loaded font family.
+ */
 @Slf4j
+@SuppressWarnings("unused")
 abstract class AbstractIcon extends Label {
     private final DoubleProperty sizeFactorProperty = new SimpleDoubleProperty();
-    private double defaultSize;
+    private String fontFamily;
+    private boolean updating;
 
     AbstractIcon(String filename) {
         init(filename);
@@ -42,23 +50,49 @@ abstract class AbstractIcon extends Label {
                 .ifPresent(mapping);
     }
 
+    @Override
+    public String toString() {
+        return getText();
+    }
+
     private void init(String filename) {
         initializeFont(filename);
         initializeSizeFactor();
+        initializeFontFamilyListener();
     }
 
     private void initializeFont(String filename) {
         Font font = FontRegistry.getInstance().loadFont(filename);
-        this.defaultSize = font.getSize();
 
+        fontFamily = font.getFamily();
         setFont(font);
     }
 
     private void initializeSizeFactor() {
-        sizeFactorProperty.addListener((observable, oldValue, newValue) -> setFont(new Font(getFont().getFamily(), getActualSizeFactor(newValue.doubleValue()))));
+        sizeFactorProperty.addListener((observable, oldValue, newValue) -> {
+            updating = true;
+            double fontSize = getActualSize(newValue.doubleValue(), getFont().getSize());
+
+            setFont(new Font(fontFamily, fontSize));
+            updating = false;
+        });
     }
 
-    private double getActualSizeFactor(double sizeFactor) {
-        return sizeFactor < 1 ? 1 : sizeFactor * defaultSize;
+    private void initializeFontFamilyListener() {
+        // this listener prevents any changes to the font family
+        fontProperty().addListener((observable, oldValue, newValue) -> {
+            if (newValue.getFamily().equals(fontFamily) || updating)
+                return;
+
+            updating = true;
+            double fontSize = getActualSize(sizeFactorProperty.get(), newValue.getSize());
+
+            setFont(Font.font(fontFamily, FontWeight.findByName(newValue.getStyle()), fontSize));
+            updating = false;
+        });
+    }
+
+    private double getActualSize(double sizeFactor, double fontSize) {
+        return sizeFactor <= 0 ? fontSize : sizeFactor * fontSize;
     }
 }
