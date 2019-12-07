@@ -1,5 +1,9 @@
-package com.github.spring.boot.javafx.view;
+package com.github.spring.boot.javafx.view.impl;
 
+import com.github.spring.boot.javafx.view.PrimaryWindowNotAvailableException;
+import com.github.spring.boot.javafx.view.ViewManager;
+import com.github.spring.boot.javafx.view.ViewManagerPolicy;
+import com.github.spring.boot.javafx.view.WindowNotFoundException;
 import javafx.application.Platform;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
