@@ -25,11 +25,13 @@ abstract class AbstractIcon extends Label {
     private boolean updating;
 
     AbstractIcon(String filename) {
+        Assert.hasText(filename, "filename cannot be empty");
         init(filename);
     }
 
     AbstractIcon(String filename, String text) {
         super(text);
+        Assert.hasText(filename, "filename cannot be empty");
         init(filename);
     }
 
