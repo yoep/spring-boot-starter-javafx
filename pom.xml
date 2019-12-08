@@ -15,6 +15,10 @@
     <version>1.0.0</version>
     <packaging>jar</packaging>
 
+    <name>Spring Boot start JavaFX</name>
+    <description>Spring Boot starter for JavaFX applications</description>
+    <url>https://github.com/yoep/spring-boot-starter-javafx</url>
+
     <properties>
         <java.version>1.8</java.version>
         <maven.compiler.source>1.8</maven.compiler.source>

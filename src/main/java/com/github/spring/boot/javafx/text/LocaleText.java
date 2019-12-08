@@ -64,7 +64,7 @@ public class LocaleText {
         try {
             return messageSource.getMessage(message, args);
         } catch (NoSuchMessageException ex) {
-            log.error("Message key '" + message + "' not found", ex);
+            log.warn("Message key '" + message + "' not found", ex);
             return message;
         }
     }
