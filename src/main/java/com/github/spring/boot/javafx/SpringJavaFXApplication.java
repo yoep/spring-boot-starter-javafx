@@ -1,6 +1,7 @@
 package com.github.spring.boot.javafx;
 
 import javafx.application.Application;
+import javafx.application.Preloader;
 import org.springframework.boot.Banner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.context.ApplicationContext;
@@ -17,11 +18,25 @@ public abstract class SpringJavaFXApplication extends Application {
      * Launch a JavaFX application with for the given class and program arguments.
      *
      * @param appClass The class to launch the JavaFX application for.
-     * @param args The program arguments.
+     * @param args     The program arguments.
      */
     @SuppressWarnings("unused")
     public static void launch(Class<? extends Application> appClass, String... args) {
         ARGUMENTS = args;
+        Application.launch(appClass, args);
+    }
+
+    /**
+     * Launch a JavaFX application with for the given class and program arguments.
+     *
+     * @param appClass       The class to launch the JavaFX application for.
+     * @param preloaderClass The class to use as the preloader of the JavaFX application.
+     * @param args           The program arguments.
+     */
+    @SuppressWarnings("unused")
+    public static void launch(Class<? extends Application> appClass, Class<? extends Preloader> preloaderClass, String... args) {
+        ARGUMENTS = args;
+        System.setProperty("javafx.preloader", preloaderClass.getName());
         Application.launch(appClass, args);
     }
 
