@@ -1,9 +1,8 @@
 package com.github.spring.boot.javafx.view.impl;
 
-import com.github.spring.boot.javafx.view.PrimaryWindowNotAvailableException;
+import com.github.spring.boot.javafx.view.StageNotFoundException;
 import com.github.spring.boot.javafx.view.ViewManager;
 import com.github.spring.boot.javafx.view.ViewManagerPolicy;
-import com.github.spring.boot.javafx.view.WindowNotFoundException;
 import javafx.application.Platform;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
@@ -20,6 +19,7 @@ import org.springframework.util.Assert;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Slf4j
 @EqualsAndHashCode
@@ -53,21 +53,19 @@ public class ViewManagerImpl implements ViewManager {
     //region Methods
 
     @Override
-    public Stage getPrimaryWindow() throws PrimaryWindowNotAvailableException {
+    public Optional<Stage> getPrimaryStage() {
         return windows.stream()
                 .filter(Window::isPrimaryWindow)
                 .map(Window::getStage)
-                .findFirst()
-                .orElseThrow(PrimaryWindowNotAvailableException::new);
+                .findFirst();
     }
 
     @Override
-    public Stage getWindow(String name) throws WindowNotFoundException {
+    public Optional<Stage> getStage(String name) {
         return windows.stream()
                 .filter(e -> e.getStage().getTitle().equalsIgnoreCase(name))
                 .findFirst()
-                .map(Window::getStage)
-                .orElseThrow(() -> new WindowNotFoundException(name));
+                .map(Window::getStage);
     }
 
     @Override
@@ -75,6 +73,17 @@ public class ViewManagerImpl implements ViewManager {
         Assert.notNull(primaryStage, "primaryStage cannot be null");
         Assert.notNull(scene, "scene cannot be null");
         addWindowView(primaryStage, scene, true);
+    }
+
+    @Override
+    public void registerPrimaryStage(Stage primaryStage) {
+        Assert.notNull(primaryStage, "primaryStage cannot be null");
+        if (getPrimaryStage().isPresent()) {
+            log.warn("Ignoring primary stage register as one has already been registered");
+            return;
+        }
+
+        this.windows.add(new Window(primaryStage, null, true));
     }
 
     @Override
@@ -100,7 +109,7 @@ public class ViewManagerImpl implements ViewManager {
             Window window = this.windows.stream()
                     .filter(e -> e.getStage() == stage)
                     .findFirst()
-                    .orElseThrow(() -> new WindowNotFoundException(stage.getTitle()));
+                    .orElseThrow(() -> new StageNotFoundException(stage.getTitle()));
 
             this.windows.remove(window);
             log.debug("Currently showing " + getTotalWindows() + " window(s)");
@@ -128,9 +137,9 @@ public class ViewManagerImpl implements ViewManager {
     @Value
     @AllArgsConstructor
     private static class Window {
-        private Stage stage;
+        private final Stage stage;
         private Scene scene;
-        private boolean primaryWindow;
+        private final boolean primaryWindow;
     }
 }
 

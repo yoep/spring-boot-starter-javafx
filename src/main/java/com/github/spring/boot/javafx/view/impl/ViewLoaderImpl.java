@@ -50,11 +50,9 @@ public class ViewLoaderImpl implements ViewLoader {
         Assert.hasText(view, "view cannot be empty");
         Assert.notNull(properties, "properties cannot be null");
 
-        try {
-            showScene(viewManager.getPrimaryWindow(), view, properties);
-        } catch (PrimaryWindowNotAvailableException ex) {
-            log.error(ex.getMessage(), ex);
-        }
+        Stage stage = viewManager.getPrimaryStage()
+                .orElseThrow(StageNotFoundException::new);
+        showScene(stage, view, properties);
     }
 
     @Override

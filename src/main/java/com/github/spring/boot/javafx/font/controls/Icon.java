@@ -15,9 +15,12 @@ public class Icon extends AbstractIcon {
     //region Unicodes
 
     public static final String CIRCLE_UNICODE = "\uf111";
+    public static final String COLLAPSE_UNICODE = "\uf066";
+    public static final String COMMENT_UNICODE = "\uf075";
     public static final String CROSS_UNICODE = "\uf00d";
     public static final String EXPAND_UNICODE = "\uf065";
     public static final String EYE_UNICODE = "\uf06e";
+    public static final String FONT_UNICODE = "\uf031";
     public static final String HEART_UNICODE = "\uf004";
     public static final String MAGNET_UNICODE = "\uf076";
     public static final String PAUSE_UNICODE = "\uf04c";
@@ -31,9 +34,12 @@ public class Icon extends AbstractIcon {
     //region Icons
 
     public static final Icon CIRCLE = new Icon(CIRCLE_UNICODE);
+    public static final Icon COLLAPSE = new Icon(COLLAPSE_UNICODE);
+    public static final Icon COMMENT = new Icon(COMMENT_UNICODE);
     public static final Icon CROSS = new Icon(CROSS_UNICODE);
     public static final Icon EXPAND = new Icon(EXPAND_UNICODE);
     public static final Icon EYE = new Icon(EYE_UNICODE);
+    public static final Icon FONT = new Icon(FONT_UNICODE);
     public static final Icon HEART = new Icon(HEART_UNICODE);
     public static final Icon MAGNET = new Icon(MAGNET_UNICODE);
     public static final Icon PAUSE = new Icon(PAUSE_UNICODE);

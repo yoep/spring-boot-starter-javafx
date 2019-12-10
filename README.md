@@ -17,6 +17,12 @@ Example:
             launch(MySpringApplication.class, args);
         }
         
+        @Override
+        public void start(Stage primaryStage) throws Exception {
+            super.start(primaryStage);
+            
+            // YOUR CODE ON STARTUP HERE
+        }
     }
     
 ## IntelliJ IDEA
@@ -27,4 +33,4 @@ missing from the modules causing an `IllegalAccessException` when trying to run 
 
 Add the following options to the `VM Options` in the run configuration of IntelliJ to fix this issue. 
 
-    -p "<PATH TO JAVAFX SDK>\lib" --add-modules javafx.controls,javafx.fxml
+    -p "<PATH TO JAVAFX SDK>\lib" --add-modules javafx.controls,javafx.fxml,javafx.swing

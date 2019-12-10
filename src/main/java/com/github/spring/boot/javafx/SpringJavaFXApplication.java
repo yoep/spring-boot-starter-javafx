@@ -1,7 +1,9 @@
 package com.github.spring.boot.javafx;
 
+import com.github.spring.boot.javafx.view.ViewManager;
 import javafx.application.Application;
 import javafx.application.Preloader;
+import javafx.stage.Stage;
 import org.springframework.boot.Banner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.context.ApplicationContext;
@@ -56,5 +58,11 @@ public abstract class SpringJavaFXApplication extends Application {
         SpringApplication application = new SpringApplication(this.getClass());
         application.setBannerMode(Banner.Mode.OFF);
         applicationContext = application.run(ARGUMENTS);
+    }
+
+    @Override
+    public void start(Stage primaryStage) throws Exception {
+        ViewManager viewManager = applicationContext.getBean(ViewManager.class);
+        viewManager.registerPrimaryStage(primaryStage);
     }
 }

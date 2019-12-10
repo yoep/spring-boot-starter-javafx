@@ -3,6 +3,8 @@ package com.github.spring.boot.javafx.view;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
+import java.util.Optional;
+
 public interface ViewManager {
     /**
      * Get the current policy for the view manager.
@@ -34,21 +36,24 @@ public interface ViewManager {
     void initialize(Stage primaryStage, Scene scene);
 
     /**
-     * Get the primary window of the application.
+     * Get the primary window of the JavaFX application.
      *
-     * @return Returns the primary window.
-     * @throws PrimaryWindowNotAvailableException Is thrown when the primary window is not available yet.
+     * @return Returns the primary window if present, else {@link Optional#empty()}.
      */
-    Stage getPrimaryWindow() throws PrimaryWindowNotAvailableException;
+    Optional<Stage> getPrimaryStage();
 
     /**
-     * Get the window by the given name.
+     * Get the JavaFX window by the given name.
      *
      * @param name Set the name of the window.
-     * @return Returns the found window.
-     * @throws WindowNotFoundException Is thrown when the window with the given name couldn't be found.
+     * @return Returns the window if found, else {@link Optional#empty()}.
      */
-    Stage getWindow(String name) throws WindowNotFoundException;
+    Optional<Stage> getStage(String name);
+
+    /**
+     * Register the primary stage of the JavaFX application.
+     */
+    void registerPrimaryStage(Stage primaryStage);
 
     /**
      * Add a new opened window to the manager.
