@@ -44,7 +44,9 @@ public interface ViewLoader {
     void showWindow(String view, ViewProperties properties);
 
     /**
-     * Load the given FXML view and set the given controller.
+     * Load the given FXML view and use the given controller in this view. (discouraged)
+     * Use Spring's {@link org.springframework.context.annotation.Scope} annotation on the {@link org.springframework.stereotype.Controller} instead.
+     * This will create a new controller instance each time the component view is loaded (and use {@link #loadComponent(String)} instead).
      *
      * @param componentView The FXML file to load.
      * @param controller    The controller to wire into the view.
@@ -54,6 +56,7 @@ public interface ViewLoader {
 
     /**
      * Load the given FXML view.
+     * Spring will inject the correct controller based on the {@code fx:controller} attribute in the view.
      *
      * @param componentView The FXML file to load.
      * @return Returns the root pane of the loaded FXML view if successfully loaded, else null.
