@@ -35,7 +35,7 @@ public class ViewLoaderImpl implements ViewLoader {
     private float scale = 1f;
 
     /**
-     * Intialize a new instance of {@link ViewLoaderImpl}.
+     * Initialize a new instance of {@link ViewLoaderImpl}.
      *
      * @param applicationContext Set the current application context.
      * @param viewManager        Set the view manager to store the views in.
@@ -49,6 +49,9 @@ public class ViewLoaderImpl implements ViewLoader {
 
     @Override
     public void setScale(float scale) {
+        if (this.scale == scale)
+            return;
+
         this.scale = scale;
         onScaleChanged(scale);
     }
@@ -261,7 +264,7 @@ public class ViewLoaderImpl implements ViewLoader {
     }
 
     private void onScaleChanged(final float newValue) {
-        for (ScaleAware scaleAware : applicationContext.getBean(ScaleAware[].class)) {
+        for (ScaleAware scaleAware : applicationContext.getBeansOfType(ScaleAware.class).values()) {
             try {
                 scaleAware.onScaleChanged(newValue);
             } catch (Exception ex) {

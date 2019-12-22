@@ -24,7 +24,7 @@ public abstract class ScaleAwareImpl implements ScaleAware {
         this.root = (Region) scene.getRoot();
         this.scaleFactor = scale;
 
-        scale();
+        scale(true);
     }
 
     @Override
@@ -33,15 +33,17 @@ public abstract class ScaleAwareImpl implements ScaleAware {
             throw new MissingScaleAwarePropertyException();
 
         this.scaleFactor = newValue;
-        scale();
+        scale(false);
     }
 
-    private void scale() {
+    private void scale(boolean isInitialScaling) {
         Window window = scene.getWindow();
 
         //set initial window size
-        window.setWidth(root.getPrefWidth() * scaleFactor);
-        window.setHeight(root.getPrefHeight() * scaleFactor);
+        if (isInitialScaling) {
+            window.setWidth(root.getPrefWidth() * scaleFactor);
+            window.setHeight(root.getPrefHeight() * scaleFactor);
+        }
 
         //scale the scene by the given scale factor
         scene.setRoot(new Group(root));
