@@ -14,7 +14,12 @@ import java.util.List;
 public class Icon extends AbstractIcon {
     //region Unicodes
 
+    public static final String CARET_DOWN_UNICODE = "\uf0d7";
+    public static final String CARET_LEFT_UNICODE = "\uf0d9";
+    public static final String CARET_RIGHT_UNICODE = "\uf0da";
+    public static final String CARET_UP_UNICODE = "\uf0d8";
     public static final String CIRCLE_UNICODE = "\uf111";
+    public static final String COGS_UNICODE = "\uf085";
     public static final String COG_UNICODE = "\uf013";
     public static final String COLLAPSE_UNICODE = "\uf066";
     public static final String COMMENT_UNICODE = "\uf075";

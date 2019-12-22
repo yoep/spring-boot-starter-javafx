@@ -32,6 +32,8 @@ public class ViewLoaderImpl implements ViewLoader {
     private final ViewManager viewManager;
     private final LocaleText localeText;
 
+    private float scale = 1f;
+
     /**
      * Intialize a new instance of {@link ViewLoaderImpl}.
      *
@@ -43,6 +45,12 @@ public class ViewLoaderImpl implements ViewLoader {
         this.applicationContext = applicationContext;
         this.viewManager = viewManager;
         this.localeText = localeText;
+    }
+
+    @Override
+    public void setScale(float scale) {
+        this.scale = scale;
+        onScaleChanged(scale);
     }
 
     @Override
@@ -229,7 +237,7 @@ public class ViewLoaderImpl implements ViewLoader {
     }
 
     private void initWindowScale(Scene scene, ScaleAware controller) {
-        controller.scale(scene, 1f);
+        controller.scale(scene, scale);
     }
 
     private void initWindowSize(Scene scene, SizeAware controller) {
@@ -250,6 +258,16 @@ public class ViewLoaderImpl implements ViewLoader {
                 controller.onSizeChange(window.getWidth(), window.getHeight(), newValue);
             }
         }));
+    }
+
+    private void onScaleChanged(final float newValue) {
+        for (ScaleAware scaleAware : applicationContext.getBean(ScaleAware[].class)) {
+            try {
+                scaleAware.onScaleChanged(newValue);
+            } catch (Exception ex) {
+                log.error("Failed to invoke scale awareness with error " + ex.getMessage(), ex);
+            }
+        }
     }
 
     @Getter

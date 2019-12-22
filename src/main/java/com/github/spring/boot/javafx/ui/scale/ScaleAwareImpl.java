@@ -17,14 +17,22 @@ public abstract class ScaleAwareImpl implements ScaleAware {
 
     @Override
     public void scale(Scene scene, float scale) {
-        if (scene == null) {
+        if (scene == null)
             throw new MissingScaleAwarePropertyException();
-        }
 
         this.scene = scene;
         this.root = (Region) scene.getRoot();
         this.scaleFactor = scale;
 
+        scale();
+    }
+
+    @Override
+    public void onScaleChanged(float newValue) {
+        if (scene == null)
+            throw new MissingScaleAwarePropertyException();
+
+        this.scaleFactor = newValue;
         scale();
     }
 

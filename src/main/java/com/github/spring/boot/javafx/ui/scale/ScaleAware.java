@@ -13,4 +13,11 @@ public interface ScaleAware {
      * @param scale Set the scale of the UI.
      */
     void scale(Scene scene, float scale);
+
+    /**
+     * Invoked when the scene scale is being changed to a new scale factor.
+     *
+     * @param newValue The new scale factor.
+     */
+    void onScaleChanged(float newValue);
 }
