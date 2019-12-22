@@ -14,6 +14,7 @@ public abstract class ScaleAwareImpl implements ScaleAware {
 
     private Scene scene;
     private Region root;
+    private Scale scale;
 
     @Override
     public void scale(Scene scene, float scale) {
@@ -24,35 +25,51 @@ public abstract class ScaleAwareImpl implements ScaleAware {
         this.root = (Region) scene.getRoot();
         this.scaleFactor = scale;
 
-        scale(true);
+        initializeScaling();
     }
 
     @Override
     public void onScaleChanged(float newValue) {
+        // check if the initial scaling has already been applied before trying to rescale the scene
         if (scene == null)
-            throw new MissingScaleAwarePropertyException();
+            return;
 
         this.scaleFactor = newValue;
-        scale(false);
+        scale();
     }
 
-    private void scale(boolean isInitialScaling) {
+    private void initializeScaling() {
         Window window = scene.getWindow();
 
-        //set initial window size
-        if (isInitialScaling) {
-            window.setWidth(root.getPrefWidth() * scaleFactor);
-            window.setHeight(root.getPrefHeight() * scaleFactor);
-        }
+        // set initial window size
+        window.setWidth(root.getPrefWidth() * scaleFactor);
+        window.setHeight(root.getPrefHeight() * scaleFactor);
 
-        //scale the scene by the given scale factor
+        // scale the scene by the given scale factor
         scene.setRoot(new Group(root));
-        scene.widthProperty().addListener((observable, oldValue, newValue) -> root.setPrefWidth(newValue.doubleValue() * 1 / scaleFactor));
-        scene.heightProperty().addListener((observable, oldValue, newValue) -> root.setPrefHeight(newValue.doubleValue() * 1 / scaleFactor));
+        scene.widthProperty().addListener((observable, oldValue, newValue) -> scaleWidth(newValue.doubleValue()));
+        scene.heightProperty().addListener((observable, oldValue, newValue) -> scaleHeight(newValue.doubleValue()));
 
-        Scale scale = new Scale(scaleFactor, scaleFactor);
+        // apply a scale transformer to the root region
+        scale = new Scale(scaleFactor, scaleFactor);
         scale.setPivotX(0);
         scale.setPivotY(0);
         root.getTransforms().setAll(scale);
+    }
+
+    private void scale() {
+        scale.setX(this.scaleFactor);
+        scale.setY(this.scaleFactor);
+
+        scaleWidth(scene.getWidth());
+        scaleHeight(scene.getHeight());
+    }
+
+    private void scaleWidth(Double newValue) {
+        root.setPrefWidth(newValue * 1 / scaleFactor);
+    }
+
+    private void scaleHeight(Double newValue) {
+        root.setPrefHeight(newValue * 1 / scaleFactor);
     }
 }
