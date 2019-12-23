@@ -18,6 +18,7 @@ public class Icon extends AbstractIcon {
     public static final String CARET_LEFT_UNICODE = "\uf0d9";
     public static final String CARET_RIGHT_UNICODE = "\uf0da";
     public static final String CARET_UP_UNICODE = "\uf0d8";
+    public static final String CHECK_UNICODE = "\uf00c";
     public static final String CIRCLE_UNICODE = "\uf111";
     public static final String COGS_UNICODE = "\uf085";
     public static final String COG_UNICODE = "\uf013";
@@ -25,6 +26,7 @@ public class Icon extends AbstractIcon {
     public static final String COMMENT_UNICODE = "\uf075";
     public static final String CROSS_UNICODE = "\uf00d";
     public static final String EXPAND_UNICODE = "\uf065";
+    public static final String EYE_SLASH_UNICODE = "\uf070";
     public static final String EYE_UNICODE = "\uf06e";
     public static final String FOLDER_OPEN_UNICODE = "\uf07c";
     public static final String FONT_UNICODE = "\uf031";
