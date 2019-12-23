@@ -44,7 +44,7 @@ public class Icon extends AbstractIcon {
 
     //endregion
 
-    private static final String FILENAME = "fontawesome-webfont.ttf";
+    private static final String FILENAME = "fontawesome-webfont.woff";
 
     //region Constructors
 
