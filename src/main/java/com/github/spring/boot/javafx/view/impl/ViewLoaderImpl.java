@@ -162,7 +162,7 @@ public class ViewLoaderImpl implements ViewLoader {
     }
 
     private FXMLLoader loadResource(String view) {
-        ClassPathResource componentResource = new ClassPathResource(view);
+        ClassPathResource componentResource = new ClassPathResource(ViewLoader.VIEW_DIRECTORY + File.separator + view);
 
         if (!componentResource.exists())
             throw new ViewNotFoundException(view);

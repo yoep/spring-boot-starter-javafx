@@ -3,8 +3,6 @@ package com.github.spring.boot.javafx.view;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
-import java.io.File;
-
 public interface ViewLoader {
     /**
      * The directory containing the FXML files.
@@ -13,7 +11,7 @@ public interface ViewLoader {
     /**
      * The directory containing the component FXML files.
      */
-    String COMPONENT_DIRECTORY = ViewLoader.VIEW_DIRECTORY + File.separator + "components";
+    String COMPONENT_DIRECTORY = "components";
     /**
      * The directory contain
      */
