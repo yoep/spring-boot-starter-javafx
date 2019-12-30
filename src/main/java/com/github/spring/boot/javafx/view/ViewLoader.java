@@ -51,15 +51,24 @@ public interface ViewLoader {
     void showWindow(String view, ViewProperties properties);
 
     /**
-     * Load the given FXML view and use the given controller in this view. (discouraged)
-     * Use Spring's {@link org.springframework.context.annotation.Scope} annotation on the {@link org.springframework.stereotype.Controller} instead.
-     * This will create a new controller instance each time the component view is loaded (and use {@link #loadComponent(String)} instead).
+     * Load the given FXML view.
+     * Spring will inject the correct controller based on the {@code fx:controller} attribute in the view.
      *
-     * @param componentView The FXML file to load.
-     * @param controller    The controller to wire into the view.
+     * @param view The FXML file to load.
      * @return Returns the root pane of the loaded FXML view if successfully loaded, else null.
      */
-    Pane loadComponent(String componentView, Object controller);
+    Pane load(String view);
+
+    /**
+     * Load the given FXML view and use the given controller in this view. (discouraged)
+     * Use Spring's {@link org.springframework.context.annotation.Scope} annotation on the {@link org.springframework.stereotype.Controller} instead.
+     * This will create a new controller instance each time the view is loaded (and use {@link #load(String)} instead).
+     *
+     * @param view       The FXML file to load.
+     * @param controller The controller to wire into the view.
+     * @return Returns the root pane of the loaded FXML view if successfully loaded, else null.
+     */
+    Pane load(String view, Object controller);
 
     /**
      * Load the given FXML view.
@@ -67,6 +76,21 @@ public interface ViewLoader {
      *
      * @param componentView The FXML file to load.
      * @return Returns the root pane of the loaded FXML view if successfully loaded, else null.
+     * @deprecated Use {@link #load(String)} instead.
      */
+    @Deprecated
     Pane loadComponent(String componentView);
+
+    /**
+     * Load the given FXML view and use the given controller in this view. (discouraged)
+     * Use Spring's {@link org.springframework.context.annotation.Scope} annotation on the {@link org.springframework.stereotype.Controller} instead.
+     * This will create a new controller instance each time the component view is loaded (and use {@link #loadComponent(String)} instead).
+     *
+     * @param componentView The FXML file to load.
+     * @param controller    The controller to wire into the view.
+     * @return Returns the root pane of the loaded FXML view if successfully loaded, else null.
+     * @deprecated Use {@link #load(String, Object)} instead.
+     */
+    @Deprecated
+    Pane loadComponent(String componentView, Object controller);
 }

@@ -82,22 +82,34 @@ public class ViewLoaderImpl implements ViewLoader {
     }
 
     @Override
-    public Pane loadComponent(String componentView, Object controller) {
-        Assert.hasText(componentView, "componentView cannot be empty");
+    public Pane load(String view) {
+        Assert.hasText(view, "view cannot be empty");
+        FXMLLoader loader = loadResource(view);
+
+        loader.setControllerFactory(applicationContext::getBean);
+        return loadComponent(loader);
+    }
+
+    @Override
+    public Pane load(String view, Object controller) {
+        Assert.hasText(view, "view cannot be empty");
         Assert.notNull(controller, "controller cannot be null");
-        FXMLLoader loader = loadComponentResource(componentView);
+        FXMLLoader loader = loadResource(view);
 
         loader.setController(controller);
         return loadComponent(loader);
     }
 
     @Override
+    public Pane loadComponent(String componentView, Object controller) {
+        Assert.hasText(componentView, "componentView cannot be empty");
+        return load(ViewLoader.COMPONENT_DIRECTORY + File.separator + componentView, controller);
+    }
+
+    @Override
     public Pane loadComponent(String componentView) {
         Assert.hasText(componentView, "componentView cannot be empty");
-        FXMLLoader loader = loadComponentResource(componentView);
-
-        loader.setControllerFactory(applicationContext::getBean);
-        return loadComponent(loader);
+        return load(ViewLoader.COMPONENT_DIRECTORY + File.separator + componentView);
     }
 
     /**
@@ -107,7 +119,7 @@ public class ViewLoaderImpl implements ViewLoader {
      * @return Returns the loaded view.
      * @throws ViewNotFoundException Is thrown when the given view file couldn't be found.
      */
-    private SceneInfo load(String view) throws ViewNotFoundException {
+    private SceneInfo loadView(String view) throws ViewNotFoundException {
         Assert.hasText(view, "view cannot be empty");
         ClassPathResource fxmlResourceFile = new ClassPathResource(ViewLoader.VIEW_DIRECTORY + File.separator + view);
 
@@ -149,11 +161,11 @@ public class ViewLoaderImpl implements ViewLoader {
         }
     }
 
-    private FXMLLoader loadComponentResource(String componentView) {
-        ClassPathResource componentResource = new ClassPathResource(ViewLoader.COMPONENT_DIRECTORY + File.separator + componentView);
+    private FXMLLoader loadResource(String view) {
+        ClassPathResource componentResource = new ClassPathResource(view);
 
         if (!componentResource.exists())
-            throw new ViewNotFoundException(componentView);
+            throw new ViewNotFoundException(view);
 
         try {
             return new FXMLLoader(componentResource.getURL());
@@ -170,7 +182,7 @@ public class ViewLoaderImpl implements ViewLoader {
      * @param properties Set the view properties.
      */
     private void showScene(Stage window, String view, ViewProperties properties) {
-        SceneInfo sceneInfo = load(view);
+        SceneInfo sceneInfo = loadView(view);
 
         if (sceneInfo != null) {
             Scene scene = sceneInfo.getScene();
