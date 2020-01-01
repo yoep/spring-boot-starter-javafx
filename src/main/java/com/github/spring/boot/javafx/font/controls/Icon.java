@@ -29,6 +29,7 @@ public class Icon extends AbstractIcon {
     public static final String EYE_SLASH_UNICODE = "\uf070";
     public static final String EYE_UNICODE = "\uf06e";
     public static final String FOLDER_OPEN_UNICODE = "\uf07c";
+    public static final String FOLDER_OPEN_O_UNICODE = "\uf115";
     public static final String FONT_UNICODE = "\uf031";
     public static final String HEART_UNICODE = "\uf004";
     public static final String INBOX_UNICODE = "\uf01c";
