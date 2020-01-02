@@ -28,13 +28,14 @@ public class Icon extends AbstractIcon {
     public static final String EXPAND_UNICODE = "\uf065";
     public static final String EYE_SLASH_UNICODE = "\uf070";
     public static final String EYE_UNICODE = "\uf06e";
-    public static final String FOLDER_OPEN_UNICODE = "\uf07c";
     public static final String FOLDER_OPEN_O_UNICODE = "\uf115";
+    public static final String FOLDER_OPEN_UNICODE = "\uf07c";
     public static final String FONT_UNICODE = "\uf031";
     public static final String HEART_UNICODE = "\uf004";
     public static final String INBOX_UNICODE = "\uf01c";
     public static final String INFO_CIRCLE_UNICODE = "\uf05a";
     public static final String MAGNET_UNICODE = "\uf076";
+    public static final String MEH_O_UNICODE = "\uf11a";
     public static final String PAUSE_UNICODE = "\uf04c";
     public static final String PLAY_UNICODE = "\uf04b";
     public static final String RANDOM_UNICODE = "\uf074";
