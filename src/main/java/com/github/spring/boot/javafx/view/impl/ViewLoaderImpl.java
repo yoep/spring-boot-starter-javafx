@@ -7,9 +7,11 @@ import com.github.spring.boot.javafx.view.*;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Rectangle2D;
+import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.Region;
 import javafx.stage.Modality;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
@@ -135,10 +137,17 @@ public class ViewLoaderImpl implements ViewLoader {
             loader.setControllerFactory(applicationContext::getBean);
 
             try {
-                Scene scene = new Scene(loader.load());
+                Region root = loader.load();
                 Object controller = loader.getController();
+                Scene scene;
 
-                return new SceneInfo(scene, controller);
+                if (controller instanceof ScaleAware) {
+                    scene = new Scene(new Group(root));
+                } else {
+                    scene = new Scene(root);
+                }
+
+                return new SceneInfo(scene, root, controller);
             } catch (IllegalStateException ex) {
                 throw new ViewNotFoundException(view, ex);
             } catch (IOException ex) {
@@ -192,7 +201,7 @@ public class ViewLoaderImpl implements ViewLoader {
             viewManager.addWindowView(window, scene);
 
             if (controller instanceof ScaleAware) {
-                initWindowScale(scene, (ScaleAware) controller);
+                initWindowScale(sceneInfo);
             }
             if (controller instanceof SizeAware) {
                 initWindowSize(scene, (SizeAware) controller);
@@ -251,8 +260,10 @@ public class ViewLoaderImpl implements ViewLoader {
         }
     }
 
-    private void initWindowScale(Scene scene, ScaleAware controller) {
-        controller.scale(scene, scale);
+    private void initWindowScale(SceneInfo sceneInfo) {
+        ScaleAware controller = (ScaleAware) sceneInfo.getController();
+
+        controller.scale(sceneInfo.getScene(), sceneInfo.getRoot(), scale);
     }
 
     private void initWindowSize(Scene scene, SizeAware controller) {
@@ -288,7 +299,17 @@ public class ViewLoaderImpl implements ViewLoader {
     @Getter
     @AllArgsConstructor
     private static class SceneInfo {
+        /**
+         * The scene for the loaded FXML file.
+         */
         private Scene scene;
+        /**
+         * The root region of the loaded FXML file.
+         */
+        private Region root;
+        /**
+         * The FXML controller that has been created.
+         */
         private Object controller;
     }
 }

@@ -1,6 +1,5 @@
 package com.github.spring.boot.javafx.ui.scale;
 
-import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.layout.Region;
 import javafx.scene.transform.Scale;
@@ -17,12 +16,12 @@ public abstract class ScaleAwareImpl implements ScaleAware {
     private Scale scale;
 
     @Override
-    public void scale(Scene scene, float scale) {
+    public void scale(Scene scene, Region root, float scale) {
         if (scene == null)
             throw new MissingScaleAwarePropertyException();
 
         this.scene = scene;
-        this.root = (Region) scene.getRoot();
+        this.root = root;
         this.scaleFactor = scale;
 
         initializeScaling();
@@ -46,7 +45,6 @@ public abstract class ScaleAwareImpl implements ScaleAware {
         window.setHeight(root.getPrefHeight() * scaleFactor);
 
         // scale the scene by the given scale factor
-        scene.setRoot(new Group(root));
         scene.widthProperty().addListener((observable, oldValue, newValue) -> scaleWidth(newValue.doubleValue()));
         scene.heightProperty().addListener((observable, oldValue, newValue) -> scaleHeight(newValue.doubleValue()));
 
