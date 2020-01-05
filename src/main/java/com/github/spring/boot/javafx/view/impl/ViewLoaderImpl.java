@@ -59,36 +59,28 @@ public class ViewLoaderImpl implements ViewLoader {
     }
 
     @Override
-    public Object show(String view, ViewProperties properties) {
+    public void show(String view, ViewProperties properties) {
         Assert.hasText(view, "view cannot be empty");
         Assert.notNull(properties, "properties cannot be null");
+
         Stage stage = viewManager.getPrimaryStage()
                 .orElseThrow(StageNotFoundException::new);
-        SceneInfo sceneInfo = loadView(view);
-
-        showScene(stage, sceneInfo, properties);
-        return sceneInfo.getController();
+        showScene(stage, view, properties);
     }
 
     @Override
-    public Object show(Stage window, String view, ViewProperties properties) {
+    public void show(Stage window, String view, ViewProperties properties) {
         Assert.notNull(window, "window cannot be empty");
         Assert.hasText(view, "view cannot be empty");
         Assert.notNull(properties, "properties cannot be null");
-        SceneInfo sceneInfo = loadView(view);
-
-        showScene(window, sceneInfo, properties);
-        return sceneInfo.getController();
+        showScene(window, view, properties);
     }
 
     @Override
-    public Object showWindow(String view, ViewProperties properties) {
+    public void showWindow(String view, ViewProperties properties) {
         Assert.hasText(view, "view cannot be empty");
         Assert.notNull(properties, "properties cannot be null");
-        SceneInfo sceneInfo = loadView(view);
-
-        showScene(new Stage(), sceneInfo, properties);
-        return sceneInfo.getController();
+        Platform.runLater(() -> showScene(new Stage(), view, properties));
     }
 
     @Override
@@ -164,7 +156,7 @@ public class ViewLoaderImpl implements ViewLoader {
             }
         }
 
-        throw new ViewNotFoundException(view);
+        return null;
     }
 
     private Pane loadComponent(FXMLLoader loader) {
@@ -195,31 +187,36 @@ public class ViewLoaderImpl implements ViewLoader {
      * Show the given scene filename in the given window with the given properties.
      *
      * @param window     Set the window to show the view in.
-     * @param sceneInfo  The scene info to render in the given view.
+     * @param view       Set the view to load and render.
      * @param properties Set the view properties.
      */
-    private void showScene(Stage window, SceneInfo sceneInfo, ViewProperties properties) {
-        Scene scene = sceneInfo.getScene();
-        Object controller = sceneInfo.getController();
+    private void showScene(Stage window, String view, ViewProperties properties) {
+        SceneInfo sceneInfo = loadView(view);
 
-        window.setScene(scene);
-        viewManager.addWindowView(window, scene);
+        if (sceneInfo != null) {
+            Scene scene = sceneInfo.getScene();
+            Object controller = sceneInfo.getController();
 
-        if (controller instanceof ScaleAware) {
-            initWindowScale(sceneInfo);
-        }
-        if (controller instanceof SizeAware) {
-            initWindowSize(scene, (SizeAware) controller);
-        }
+            window.setScene(scene);
+            viewManager.addWindowView(window, scene);
 
-        setWindowViewProperties(window, properties);
+            if (controller instanceof ScaleAware) {
+                initWindowScale(sceneInfo);
+            }
+            if (controller instanceof SizeAware) {
+                initWindowSize(scene, (SizeAware) controller);
+            }
 
-        if (properties.isDialog()) {
-            window.initModality(Modality.APPLICATION_MODAL);
+            setWindowViewProperties(window, properties);
 
-            Platform.runLater(window::showAndWait);
+            if (properties.isDialog()) {
+                window.initModality(Modality.APPLICATION_MODAL);
+                window.showAndWait();
+            } else {
+                window.show();
+            }
         } else {
-            Platform.runLater(window::show);
+            log.warn("Unable to show view " + view + " in window " + window);
         }
     }
 
