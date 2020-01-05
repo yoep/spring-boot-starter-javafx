@@ -59,28 +59,36 @@ public class ViewLoaderImpl implements ViewLoader {
     }
 
     @Override
-    public void show(String view, ViewProperties properties) {
+    public Object show(String view, ViewProperties properties) {
         Assert.hasText(view, "view cannot be empty");
         Assert.notNull(properties, "properties cannot be null");
-
         Stage stage = viewManager.getPrimaryStage()
                 .orElseThrow(StageNotFoundException::new);
-        showScene(stage, view, properties);
+        SceneInfo sceneInfo = loadView(view);
+
+        showScene(stage, sceneInfo, properties);
+        return sceneInfo.getController();
     }
 
     @Override
-    public void show(Stage window, String view, ViewProperties properties) {
+    public Object show(Stage window, String view, ViewProperties properties) {
         Assert.notNull(window, "window cannot be empty");
         Assert.hasText(view, "view cannot be empty");
         Assert.notNull(properties, "properties cannot be null");
-        showScene(window, view, properties);
+        SceneInfo sceneInfo = loadView(view);
+
+        showScene(window, sceneInfo, properties);
+        return sceneInfo.getController();
     }
 
     @Override
-    public void showWindow(String view, ViewProperties properties) {
+    public Object showWindow(String view, ViewProperties properties) {
         Assert.hasText(view, "view cannot be empty");
         Assert.notNull(properties, "properties cannot be null");
-        Platform.runLater(() -> showScene(new Stage(), view, properties));
+        SceneInfo sceneInfo = loadView(view);
+
+        showScene(new Stage(), sceneInfo, properties);
+        return sceneInfo.getController();
     }
 
     @Override
@@ -156,7 +164,7 @@ public class ViewLoaderImpl implements ViewLoader {
             }
         }
 
-        return null;
+        throw new ViewNotFoundException(view);
     }
 
     private Pane loadComponent(FXMLLoader loader) {
@@ -187,36 +195,31 @@ public class ViewLoaderImpl implements ViewLoader {
      * Show the given scene filename in the given window with the given properties.
      *
      * @param window     Set the window to show the view in.
-     * @param view       Set the view to load and render.
+     * @param sceneInfo  The scene info to render in the given view.
      * @param properties Set the view properties.
      */
-    private void showScene(Stage window, String view, ViewProperties properties) {
-        SceneInfo sceneInfo = loadView(view);
+    private void showScene(Stage window, SceneInfo sceneInfo, ViewProperties properties) {
+        Scene scene = sceneInfo.getScene();
+        Object controller = sceneInfo.getController();
 
-        if (sceneInfo != null) {
-            Scene scene = sceneInfo.getScene();
-            Object controller = sceneInfo.getController();
+        window.setScene(scene);
+        viewManager.addWindowView(window, scene);
 
-            window.setScene(scene);
-            viewManager.addWindowView(window, scene);
+        if (controller instanceof ScaleAware) {
+            initWindowScale(sceneInfo);
+        }
+        if (controller instanceof SizeAware) {
+            initWindowSize(scene, (SizeAware) controller);
+        }
 
-            if (controller instanceof ScaleAware) {
-                initWindowScale(sceneInfo);
-            }
-            if (controller instanceof SizeAware) {
-                initWindowSize(scene, (SizeAware) controller);
-            }
+        setWindowViewProperties(window, properties);
 
-            setWindowViewProperties(window, properties);
+        if (properties.isDialog()) {
+            window.initModality(Modality.APPLICATION_MODAL);
 
-            if (properties.isDialog()) {
-                window.initModality(Modality.APPLICATION_MODAL);
-                window.showAndWait();
-            } else {
-                window.show();
-            }
+            Platform.runLater(window::showAndWait);
         } else {
-            log.warn("Unable to show view " + view + " in window " + window);
+            Platform.runLater(window::show);
         }
     }
 

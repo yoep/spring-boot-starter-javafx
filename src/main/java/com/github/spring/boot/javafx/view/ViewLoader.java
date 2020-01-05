@@ -28,8 +28,9 @@ public interface ViewLoader {
      * Load and show the given view.
      *
      * @param view Set the view to load and show.
+     * @return Returns the controller of the loaded view.
      */
-    void show(String view, ViewProperties properties);
+    Object show(String view, ViewProperties properties);
 
     /**
      * Show the primary scene on the given primary window.
@@ -37,16 +38,18 @@ public interface ViewLoader {
      * @param window     Set the window.
      * @param view       Set the view scene to load.
      * @param properties Set the view properties.
+     * @return Returns the controller of the loaded view.
      */
-    void show(Stage window, String view, ViewProperties properties);
+    Object show(Stage window, String view, ViewProperties properties);
 
     /**
      * Show the given view in a new window.
      *
      * @param view       Set the view to load and show.
      * @param properties Set the properties of the window.
+     * @return Returns the controller of the loaded view.
      */
-    void showWindow(String view, ViewProperties properties);
+    Object showWindow(String view, ViewProperties properties);
 
     /**
      * Load the given FXML view.
