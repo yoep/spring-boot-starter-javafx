@@ -84,6 +84,15 @@ public class ViewLoaderImpl implements ViewLoader {
     }
 
     @Override
+    public void showWindow(Pane pane, Object controller, ViewProperties properties) {
+        Assert.notNull(pane, "pane cannot be null");
+        Assert.notNull(controller, "controller cannot be null");
+        Assert.notNull(properties, "properties cannot be null");
+
+        Platform.runLater(() -> showScene(new Stage(), new SceneInfo(new Scene(pane), pane, controller), properties));
+    }
+
+    @Override
     public Pane load(String view) {
         Assert.hasText(view, "view cannot be empty");
         FXMLLoader loader = loadResource(view);
@@ -183,40 +192,37 @@ public class ViewLoaderImpl implements ViewLoader {
         }
     }
 
-    /**
-     * Show the given scene filename in the given window with the given properties.
-     *
-     * @param window     Set the window to show the view in.
-     * @param view       Set the view to load and render.
-     * @param properties Set the view properties.
-     */
     private void showScene(Stage window, String view, ViewProperties properties) {
         SceneInfo sceneInfo = loadView(view);
 
         if (sceneInfo != null) {
-            Scene scene = sceneInfo.getScene();
-            Object controller = sceneInfo.getController();
-
-            window.setScene(scene);
-            viewManager.addWindowView(window, scene);
-
-            if (controller instanceof ScaleAware) {
-                initWindowScale(sceneInfo);
-            }
-            if (controller instanceof SizeAware) {
-                initWindowSize(scene, (SizeAware) controller);
-            }
-
-            setWindowViewProperties(window, properties);
-
-            if (properties.isDialog()) {
-                window.initModality(Modality.APPLICATION_MODAL);
-                window.showAndWait();
-            } else {
-                window.show();
-            }
+            showScene(window, sceneInfo, properties);
         } else {
             log.warn("Unable to show view " + view + " in window " + window);
+        }
+    }
+
+    private void showScene(Stage window, SceneInfo sceneInfo, ViewProperties properties) {
+        Scene scene = sceneInfo.getScene();
+        Object controller = sceneInfo.getController();
+
+        window.setScene(scene);
+        viewManager.addWindowView(window, scene);
+
+        if (controller instanceof ScaleAware) {
+            initWindowScale(sceneInfo);
+        }
+        if (controller instanceof SizeAware) {
+            initWindowSize(scene, (SizeAware) controller);
+        }
+
+        setWindowViewProperties(window, properties);
+
+        if (properties.isDialog()) {
+            window.initModality(Modality.APPLICATION_MODAL);
+            window.showAndWait();
+        } else {
+            window.show();
         }
     }
 

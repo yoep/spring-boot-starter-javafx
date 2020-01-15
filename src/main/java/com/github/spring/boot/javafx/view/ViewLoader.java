@@ -34,19 +34,28 @@ public interface ViewLoader {
     /**
      * Show the primary scene on the given primary window.
      *
-     * @param window     Set the window.
-     * @param view       Set the view scene to load.
-     * @param properties Set the view properties.
+     * @param window     The window.
+     * @param view       The view scene to load.
+     * @param properties The view properties.
      */
     void show(Stage window, String view, ViewProperties properties);
 
     /**
      * Show the given view in a new window.
      *
-     * @param view       Set the view to load and show.
-     * @param properties Set the properties of the window.
+     * @param view       The FXML file to load and show.
+     * @param properties The properties of the window.
      */
     void showWindow(String view, ViewProperties properties);
+
+    /**
+     * Show the given pane in a new window.
+     *
+     * @param pane       The root pane to show in the window.
+     * @param controller The controller of the root pane.
+     * @param properties The properties of the window.
+     */
+    void showWindow(Pane pane, Object controller, ViewProperties properties);
 
     /**
      * Load the given FXML view.
