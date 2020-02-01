@@ -26,6 +26,7 @@ import org.springframework.util.Assert;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Optional;
 
 @Slf4j
 @Component
@@ -227,17 +228,17 @@ public class ViewLoaderImpl implements ViewLoader {
     }
 
     private void setWindowViewProperties(Stage window, ViewProperties properties) {
-        if (!properties.isMaximizable()) {
-            window.setResizable(false);
-        }
-        if (StringUtils.isNoneEmpty(properties.getIcon())) {
-            window.getIcons().add(loadWindowIcon(properties.getIcon()));
-        }
+        window.setTitle(properties.getTitle());
+        window.setMaximized(properties.isMaximized());
+        window.setResizable(properties.isResizable());
+
+        Optional.ofNullable(properties.getIcon())
+                .filter(StringUtils::isNotBlank)
+                .ifPresent(icon -> window.getIcons().add(loadWindowIcon(icon)));
+
         if (properties.isCenterOnScreen()) {
             centerOnScreen(window);
         }
-
-        window.setTitle(properties.getTitle());
     }
 
     /**
