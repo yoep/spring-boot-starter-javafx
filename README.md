@@ -4,6 +4,16 @@ Spring Boot starter for easy integration with JavaFX.
 This library provides easy integration with JavaJX as well as additional helpers for 
 loading & managing JavaFX views in Spring.
 
+## Maven
+
+The library is available in the maven central repository and can be used by adding:
+
+    <dependency>
+      <groupId>com.github.yoep</groupId>
+      <artifactId>spring-boot-starter-javafx</artifactId>
+      <version>1.0.0</version>
+    </dependency>
+
 ## Usage
 
 Create a class that extends `SpringJavaFXApplication` and launch the JavaFX application from this class.
