@@ -7,15 +7,15 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.1.9.RELEASE</version>
+        <version>2.2.4.RELEASE</version>
     </parent>
 
     <groupId>com.github.yoep</groupId>
     <artifactId>spring-boot-starter-javafx</artifactId>
-    <version>1.0.0</version>
+    <version>1.0.1-SNAPSHOT</version>
     <packaging>jar</packaging>
 
-    <name>Spring Boot start JavaFX</name>
+    <name>Spring Boot starter JavaFX</name>
     <description>Spring Boot starter for JavaFX applications</description>
     <url>https://github.com/yoep/spring-boot-starter-javafx</url>
 
@@ -47,7 +47,7 @@
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
 
-        <javafx.version>13</javafx.version>
+        <javafx.version>13.0.2</javafx.version>
     </properties>
 
     <dependencies>
