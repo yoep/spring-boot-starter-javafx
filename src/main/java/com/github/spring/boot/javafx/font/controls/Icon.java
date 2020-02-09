@@ -14,6 +14,7 @@ import java.util.List;
 public class Icon extends AbstractIcon {
     //region Unicodes
 
+    public static final String BAN_UNICODE = "\uf05e";
     public static final String CARET_DOWN_UNICODE = "\uf0d7";
     public static final String CARET_LEFT_UNICODE = "\uf0d9";
     public static final String CARET_RIGHT_UNICODE = "\uf0da";
@@ -34,15 +35,24 @@ public class Icon extends AbstractIcon {
     public static final String HEART_UNICODE = "\uf004";
     public static final String INBOX_UNICODE = "\uf01c";
     public static final String INFO_CIRCLE_UNICODE = "\uf05a";
+    public static final String LEVEL_UP_UNICODE = "\uf148";
     public static final String MAGNET_UNICODE = "\uf076";
     public static final String MEH_O_UNICODE = "\uf11a";
+    public static final String MINUS_CIRCLE_UNICODE = "\uf056";
+    public static final String MINUS_SQUARE_UNICODE = "\uf146";
+    public static final String MINUS_UNICODE = "\uf068";
     public static final String PAUSE_UNICODE = "\uf04c";
+    public static final String PENCIL_SQUARE_O_UNICODE = "\uf044";
+    public static final String PENCIL_SQUARE_UNICODE = "\uf14b";
+    public static final String PENCIL_UNICODE = "\uf040";
     public static final String PLAY_UNICODE = "\uf04b";
     public static final String RANDOM_UNICODE = "\uf074";
     public static final String SEARCH_UNICODE = "\uf002";
     public static final String STAR_HALF_EMPTY_UNICODE = "\uf123";
     public static final String STAR_HALF_UNICODE = "\uf089";
     public static final String STAR_UNICODE = "\uf005";
+    public static final String TRASH_O_UNICODE = "\uf014";
+    public static final String TRASH_UNICODE = "\uf1f8";
 
     //endregion
 

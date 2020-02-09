@@ -46,6 +46,7 @@ public class FontRegistry {
      *
      * @param filename The font filename to load from the {@link #FONT_DIRECTORY}.
      * @param size     The size of the font.
+     * @return Returns the loaded font.
      */
     public Font loadFont(String filename, double size) {
         Assert.notNull(filename, "filename cannot be null");

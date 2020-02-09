@@ -52,6 +52,8 @@ public interface ViewManager {
 
     /**
      * Register the primary stage of the JavaFX application.
+     *
+     * @param primaryStage The primary stage to register in this manager.
      */
     void registerPrimaryStage(Stage primaryStage);
 

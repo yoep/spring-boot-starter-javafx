@@ -27,7 +27,8 @@ public interface ViewLoader {
     /**
      * Load and show the given view.
      *
-     * @param view Set the view to load and show.
+     * @param view       Set the view to load and show.
+     * @param properties The view properties.
      */
     void show(String view, ViewProperties properties);
 
@@ -52,7 +53,7 @@ public interface ViewLoader {
      * Show the given pane in a new window.
      *
      * @param pane       The root pane to show in the window.
-     * @param controller The controller of the root pane.
+     * @param controller The controller of the root pane.µ
      * @param properties The properties of the window.
      */
     void showWindow(Pane pane, Object controller, ViewProperties properties);
