@@ -57,6 +57,7 @@ public abstract class SpringJavaFXApplication extends Application {
     public void init() {
         SpringApplication application = new SpringApplication(this.getClass());
         application.setBannerMode(Banner.Mode.OFF);
+        application.setHeadless(false);
         applicationContext = application.run(ARGUMENTS);
     }
 
