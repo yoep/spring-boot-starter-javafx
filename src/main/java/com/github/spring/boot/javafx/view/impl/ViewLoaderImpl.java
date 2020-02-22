@@ -127,11 +127,12 @@ public class ViewLoaderImpl implements ViewLoader {
     /**
      * Load the given view.
      *
-     * @param view Set the view name to load.
+     * @param view       The view name to load.
+     * @param properties The view properties.
      * @return Returns the loaded view.
      * @throws ViewNotFoundException Is thrown when the given view file couldn't be found.
      */
-    private SceneInfo loadView(String view) throws ViewNotFoundException {
+    private SceneInfo loadView(String view, ViewProperties properties) throws ViewNotFoundException {
         Assert.hasText(view, "view cannot be empty");
         ClassPathResource fxmlResourceFile = new ClassPathResource(ViewLoader.VIEW_DIRECTORY + File.separator + view);
 
@@ -156,6 +157,11 @@ public class ViewLoaderImpl implements ViewLoader {
                 } else {
                     scene = new Scene(root);
                 }
+
+                // check if a background fill color has been defined
+                // if so, set the fill color for the scene
+                if (properties != null && properties.getBackground() != null)
+                    scene.setFill(properties.getBackground());
 
                 return new SceneInfo(scene, root, controller);
             } catch (IllegalStateException ex) {
@@ -194,7 +200,7 @@ public class ViewLoaderImpl implements ViewLoader {
     }
 
     private void showScene(Stage window, String view, ViewProperties properties) {
-        SceneInfo sceneInfo = loadView(view);
+        SceneInfo sceneInfo = loadView(view, properties);
 
         if (sceneInfo != null) {
             showScene(window, sceneInfo, properties);

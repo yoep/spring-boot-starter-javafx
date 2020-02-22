@@ -1,5 +1,6 @@
 package com.github.spring.boot.javafx.view;
 
+import javafx.scene.paint.Paint;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -36,4 +37,8 @@ public class ViewProperties {
      */
     @Builder.Default
     private boolean centerOnScreen = true;
+    /**
+     * The default background fill color of the scene.
+     */
+    private Paint background;
 }
