@@ -1,5 +1,7 @@
 package com.github.spring.boot.javafx.view;
 
+import javafx.beans.property.Property;
+import javafx.beans.property.ReadOnlyProperty;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
@@ -14,6 +16,13 @@ public interface ViewManager {
     ViewManagerPolicy getPolicy();
 
     /**
+     * Get the policy property of the view manager.
+     *
+     * @return Returns the policy property.
+     */
+    Property<ViewManagerPolicy> policyProperty();
+
+    /**
      * Set the policy for the view manager which it follows when all windows are closed.
      *
      * @param policy Set the policy that needs to be applied.
@@ -21,26 +30,25 @@ public interface ViewManager {
     void setPolicy(ViewManagerPolicy policy);
 
     /**
-     * Get the total amount of windows which are currently being shown.
-     *
-     * @return Returns the total amount of shown windows.
-     */
-    int getTotalWindows();
-
-    /**
-     * Initialize the window manager by with the primary stage of the JavaFX application.
-     *
-     * @param primaryStage The primary stage of JavaFX.
-     * @param scene        The scene for the primary stage.
-     */
-    void initialize(Stage primaryStage, Scene scene);
-
-    /**
      * Get the primary window of the JavaFX application.
      *
      * @return Returns the primary window if present, else {@link Optional#empty()}.
      */
     Optional<Stage> getPrimaryStage();
+
+    /**
+     * Get the primary stage property of the view manager.
+     *
+     * @return Returns the primary stage property.
+     */
+    ReadOnlyProperty<Stage> primaryStageProperty();
+
+    /**
+     * Get the total amount of windows which are currently being shown.
+     *
+     * @return Returns the total amount of shown windows.
+     */
+    int getTotalWindows();
 
     /**
      * Get the JavaFX window by the given name.

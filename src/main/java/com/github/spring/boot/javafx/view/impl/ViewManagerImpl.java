@@ -4,6 +4,9 @@ import com.github.spring.boot.javafx.view.StageNotFoundException;
 import com.github.spring.boot.javafx.view.ViewManager;
 import com.github.spring.boot.javafx.view.ViewManagerPolicy;
 import javafx.application.Platform;
+import javafx.beans.property.Property;
+import javafx.beans.property.ReadOnlyProperty;
+import javafx.beans.property.SimpleObjectProperty;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
@@ -26,21 +29,47 @@ import java.util.Optional;
 @Component
 @RequiredArgsConstructor
 public class ViewManagerImpl implements ViewManager {
+    public static final String PRIMARY_STAGE_PROPERTY = "primaryStage";
+    public static final String POLICY_PROPERTY = "policy";
+
     private final List<Window> windows = new ArrayList<>();
     private final ConfigurableApplicationContext applicationContext;
+    private final Property<Stage> primaryStage = new SimpleObjectProperty<>(this, PRIMARY_STAGE_PROPERTY);
+    private final Property<ViewManagerPolicy> policy = new SimpleObjectProperty<>(this, POLICY_PROPERTY, ViewManagerPolicy.CLOSEABLE);
 
-    private ViewManagerPolicy policy = ViewManagerPolicy.CLOSEABLE;
+    //region Properties
 
-    //region Getters & Setters
+    @Override
+    public Optional<Stage> getPrimaryStage() {
+        return Optional.ofNullable(primaryStage.getValue());
+    }
+
+    @Override
+    public ReadOnlyProperty<Stage> primaryStageProperty() {
+        return primaryStage;
+    }
+
+    @Override
+    public Optional<Stage> getStage(String name) {
+        return windows.stream()
+                .filter(e -> e.getStage().getTitle().equalsIgnoreCase(name))
+                .findFirst()
+                .map(Window::getStage);
+    }
 
     @Override
     public ViewManagerPolicy getPolicy() {
+        return policy.getValue();
+    }
+
+    @Override
+    public Property<ViewManagerPolicy> policyProperty() {
         return policy;
     }
 
     @Override
     public void setPolicy(ViewManagerPolicy policy) {
-        this.policy = policy;
+        this.policy.setValue(policy);
     }
 
     @Override
@@ -53,29 +82,6 @@ public class ViewManagerImpl implements ViewManager {
     //region Methods
 
     @Override
-    public Optional<Stage> getPrimaryStage() {
-        return windows.stream()
-                .filter(Window::isPrimaryWindow)
-                .map(Window::getStage)
-                .findFirst();
-    }
-
-    @Override
-    public Optional<Stage> getStage(String name) {
-        return windows.stream()
-                .filter(e -> e.getStage().getTitle().equalsIgnoreCase(name))
-                .findFirst()
-                .map(Window::getStage);
-    }
-
-    @Override
-    public void initialize(Stage primaryStage, Scene scene) {
-        Assert.notNull(primaryStage, "primaryStage cannot be null");
-        Assert.notNull(scene, "scene cannot be null");
-        addWindowView(primaryStage, scene, true);
-    }
-
-    @Override
     public void registerPrimaryStage(Stage primaryStage) {
         Assert.notNull(primaryStage, "primaryStage cannot be null");
         if (getPrimaryStage().isPresent()) {
@@ -83,7 +89,8 @@ public class ViewManagerImpl implements ViewManager {
             return;
         }
 
-        this.windows.add(new Window(primaryStage, null, true));
+        this.primaryStage.setValue(primaryStage);
+        addWindowView(primaryStage, primaryStage.getScene(), true);
     }
 
     @Override
@@ -114,7 +121,7 @@ public class ViewManagerImpl implements ViewManager {
             this.windows.remove(window);
             log.debug("Currently showing " + getTotalWindows() + " window(s)");
 
-            if (policy == ViewManagerPolicy.CLOSEABLE) {
+            if (policy.getValue() == ViewManagerPolicy.CLOSEABLE) {
                 if (window.isPrimaryWindow()) {
                     log.debug("Application closing, primary window is closed");
                     exitApplication();
