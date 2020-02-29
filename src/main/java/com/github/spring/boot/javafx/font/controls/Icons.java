@@ -1,7 +1,7 @@
 package com.github.spring.boot.javafx.font.controls;
 
 /**
- * @deprecated Use the unicode's from the classes themselves.
+ * @deprecated Since 1.0.0, use the unicode's from the classes themselves instead.
  * @see Icon
  * @see IconRegular
  * @see IconSolid

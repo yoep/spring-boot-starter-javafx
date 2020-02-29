@@ -3,6 +3,7 @@ package com.github.spring.boot.javafx.view.impl;
 import com.github.spring.boot.javafx.text.LocaleText;
 import com.github.spring.boot.javafx.ui.scale.ScaleAware;
 import com.github.spring.boot.javafx.ui.size.SizeAware;
+import com.github.spring.boot.javafx.ui.stage.StageAware;
 import com.github.spring.boot.javafx.view.*;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
@@ -222,6 +223,9 @@ public class ViewLoaderImpl implements ViewLoader {
         if (controller instanceof SizeAware) {
             initWindowSize(scene, (SizeAware) controller);
         }
+        if (controller instanceof StageAware) {
+            initWindowEvents(scene, (StageAware) controller);
+        }
 
         setWindowViewProperties(window, properties);
 
@@ -297,6 +301,13 @@ public class ViewLoaderImpl implements ViewLoader {
                 controller.onSizeChange(window.getWidth(), window.getHeight(), newValue);
             }
         }));
+    }
+
+    private void initWindowEvents(Scene scene, StageAware controller) {
+        final Stage window = (Stage) scene.getWindow();
+
+        window.setOnShown(event -> controller.onShown(window));
+        window.setOnCloseRequest(event -> controller.onClosed(window));
     }
 
     private void onScaleChanged(final float newValue) {
