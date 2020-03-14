@@ -13,11 +13,9 @@ import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
-import lombok.RequiredArgsConstructor;
 import lombok.Value;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.ConfigurableApplicationContext;
-import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
 
 import java.util.ArrayList;
@@ -26,8 +24,6 @@ import java.util.Optional;
 
 @Slf4j
 @EqualsAndHashCode
-@Component
-@RequiredArgsConstructor
 public class ViewManagerImpl implements ViewManager {
     public static final String PRIMARY_STAGE_PROPERTY = "primaryStage";
     public static final String POLICY_PROPERTY = "policy";
@@ -36,6 +32,14 @@ public class ViewManagerImpl implements ViewManager {
     private final ConfigurableApplicationContext applicationContext;
     private final Property<Stage> primaryStage = new SimpleObjectProperty<>(this, PRIMARY_STAGE_PROPERTY);
     private final Property<ViewManagerPolicy> policy = new SimpleObjectProperty<>(this, POLICY_PROPERTY, ViewManagerPolicy.CLOSEABLE);
+
+    //region Constructors
+
+    public ViewManagerImpl(ConfigurableApplicationContext applicationContext) {
+        this.applicationContext = applicationContext;
+    }
+
+    //endregion
 
     //region Properties
 

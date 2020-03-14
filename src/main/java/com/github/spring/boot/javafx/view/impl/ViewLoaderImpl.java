@@ -17,12 +17,12 @@ import javafx.stage.Modality;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.context.ApplicationContext;
 import org.springframework.core.io.ClassPathResource;
-import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
 
 import java.io.File;
@@ -30,13 +30,14 @@ import java.io.IOException;
 import java.util.Optional;
 
 @Slf4j
-@Component
 public class ViewLoaderImpl implements ViewLoader {
-    private final ApplicationContext applicationContext;
-    private final ViewManager viewManager;
-    private final LocaleText localeText;
+    protected final ApplicationContext applicationContext;
+    protected final ViewManager viewManager;
+    protected final LocaleText localeText;
 
-    private float scale = 1f;
+    protected float scale = 1f;
+
+    //region Constructors
 
     /**
      * Initialize a new instance of {@link ViewLoaderImpl}.
@@ -50,6 +51,10 @@ public class ViewLoaderImpl implements ViewLoader {
         this.viewManager = viewManager;
         this.localeText = localeText;
     }
+
+    //endregion
+
+    //region ViewLoader
 
     @Override
     public void setScale(float scale) {
@@ -125,14 +130,50 @@ public class ViewLoaderImpl implements ViewLoader {
         return load(ViewLoader.COMPONENT_DIRECTORY + File.separator + componentView);
     }
 
+    //endregion
+
+    //region Functions
+
     /**
-     * Load the given view.
+     * Load the view component from the {@link FXMLLoader}.
+     * This method attaches the available resources of the application to the loader before loading the actual component.
      *
-     * @param view       The view name to load.
-     * @param properties The view properties.
-     * @return Returns the loaded view.
-     * @throws ViewNotFoundException Is thrown when the given view file couldn't be found.
+     * @param loader The loader to load the component from.
+     * @return Returns the loaded view component on success, else null when the loading failed.
      */
+    protected Pane loadComponent(FXMLLoader loader) {
+        Assert.notNull(loader, "loader cannot be null");
+        loader.setResources(localeText.getResourceBundle());
+
+        try {
+            return loader.load();
+        } catch (IOException e) {
+            log.error(e.getMessage(), e);
+            return null;
+        }
+    }
+
+    /**
+     * Prepare the resource view to be loaded.
+     * This method will load the resource file from the classpath and prepare the {@link FXMLLoader}.
+     *
+     * @param view The view file that needs to be loaded.
+     * @return Returns the loader for the given view file.
+     */
+    protected FXMLLoader loadResource(String view) {
+        Assert.notNull(view, "view cannot be null");
+        ClassPathResource componentResource = new ClassPathResource(ViewLoader.VIEW_DIRECTORY + File.separator + view);
+
+        if (!componentResource.exists())
+            throw new ViewNotFoundException(view);
+
+        try {
+            return new FXMLLoader(componentResource.getURL());
+        } catch (IOException ex) {
+            throw new ViewException(ex.getMessage(), ex);
+        }
+    }
+
     private SceneInfo loadView(String view, ViewProperties properties) throws ViewNotFoundException {
         Assert.hasText(view, "view cannot be empty");
         ClassPathResource fxmlResourceFile = new ClassPathResource(ViewLoader.VIEW_DIRECTORY + File.separator + view);
@@ -174,30 +215,6 @@ public class ViewLoaderImpl implements ViewLoader {
         }
 
         return null;
-    }
-
-    private Pane loadComponent(FXMLLoader loader) {
-        loader.setResources(localeText.getResourceBundle());
-
-        try {
-            return loader.load();
-        } catch (IOException e) {
-            log.error(e.getMessage(), e);
-            return null;
-        }
-    }
-
-    private FXMLLoader loadResource(String view) {
-        ClassPathResource componentResource = new ClassPathResource(ViewLoader.VIEW_DIRECTORY + File.separator + view);
-
-        if (!componentResource.exists())
-            throw new ViewNotFoundException(view);
-
-        try {
-            return new FXMLLoader(componentResource.getURL());
-        } catch (IOException ex) {
-            throw new ViewException(ex.getMessage(), ex);
-        }
     }
 
     private void showScene(Stage window, String view, ViewProperties properties) {
@@ -320,9 +337,11 @@ public class ViewLoaderImpl implements ViewLoader {
         }
     }
 
+    //endregion
+
     @Getter
     @AllArgsConstructor
-    private static class SceneInfo {
+    static class SceneInfo {
         /**
          * The scene for the loaded FXML file.
          */
