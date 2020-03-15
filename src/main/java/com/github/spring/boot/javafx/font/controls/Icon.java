@@ -31,11 +31,13 @@ public class Icon extends AbstractIcon {
     public static final String EYE_SLASH_UNICODE = "\uf070";
     public static final String EYE_UNICODE = "\uf06e";
     public static final String FILE_UNICODE = "\uf15b";
+    public static final String FILM_UNICODE = "\uf008";
     public static final String FOLDER_OPEN_O_UNICODE = "\uf115";
     public static final String FOLDER_OPEN_UNICODE = "\uf07c";
     public static final String FONT_UNICODE = "\uf031";
     public static final String HEART_UNICODE = "\uf004";
     public static final String HELP_UNICODE = "\uf059";
+    public static final String HOME_UNICODE = "\uf015";
     public static final String INBOX_UNICODE = "\uf01c";
     public static final String INFO_CIRCLE_UNICODE = "\uf05a";
     public static final String INFO_UNICODE = "\uf059";
@@ -50,11 +52,13 @@ public class Icon extends AbstractIcon {
     public static final String PENCIL_SQUARE_UNICODE = "\uf14b";
     public static final String PENCIL_UNICODE = "\uf040";
     public static final String PLAY_UNICODE = "\uf04b";
+    public static final String POWER_OFF_UNICODE = "\uf011";
     public static final String RANDOM_UNICODE = "\uf074";
     public static final String SEARCH_UNICODE = "\uf002";
     public static final String STAR_HALF_EMPTY_UNICODE = "\uf123";
     public static final String STAR_HALF_UNICODE = "\uf089";
     public static final String STAR_UNICODE = "\uf005";
+    public static final String TELEVISION_UNICODE = "\uf26c";
     public static final String TRASH_O_UNICODE = "\uf014";
     public static final String TRASH_UNICODE = "\uf1f8";
 
