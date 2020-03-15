@@ -1,4 +1,4 @@
-package com.github.spring.boot.javafx.view.impl;
+package com.github.spring.boot.javafx.view;
 
 import com.github.spring.boot.javafx.view.StageNotFoundException;
 import com.github.spring.boot.javafx.view.ViewManager;

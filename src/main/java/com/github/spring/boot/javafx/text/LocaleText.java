@@ -1,36 +1,26 @@
 package com.github.spring.boot.javafx.text;
 
-import lombok.Getter;
-import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.ArrayUtils;
-import org.springframework.context.NoSuchMessageException;
 import org.springframework.context.support.MessageSourceAccessor;
 import org.springframework.context.support.MessageSourceResourceBundle;
-import org.springframework.context.support.ResourceBundleMessageSource;
-import org.springframework.stereotype.Component;
-
-import java.util.Locale;
 
 /**
- * Get the localized text for the given message key.
- * This class uses Spring's {@link MessageSourceResourceBundle} for retrieving the locale strings.
+ * Defines a easy way of loading localized text messages.
+ * This interface uses {@link Message} for easy localized text definitions.
  */
-@Getter
-@Slf4j
-@Component
-public class LocaleText {
-    private final MessageSourceAccessor messageSource;
-    private final MessageSourceResourceBundle resourceBundle;
+public interface LocaleText {
+    /**
+     * Get the message source that is used by this {@link LocaleText}.
+     *
+     * @return Returns the message source.
+     */
+    MessageSourceAccessor getMessageSource();
 
     /**
-     * Initialize a new instance of {@link LocaleText}.
+     * Get the resource bundle that is used by this {@link LocaleText}.
      *
-     * @param messageSource set the message source to use.
+     * @return Returns the resource bundle.
      */
-    public LocaleText(ResourceBundleMessageSource messageSource) {
-        this.messageSource = new MessageSourceAccessor(messageSource);
-        this.resourceBundle = new MessageSourceResourceBundle(messageSource, Locale.getDefault());
-    }
+    MessageSourceResourceBundle getResourceBundle();
 
     /**
      * Get the text for the given message key.
@@ -38,9 +28,7 @@ public class LocaleText {
      * @param message Set the message key.
      * @return Returns the formatted text.
      */
-    public String get(Message message) {
-        return get(message, ArrayUtils.EMPTY_OBJECT_ARRAY);
-    }
+    String get(Message message);
 
     /**
      * Get the text for the given message key.
@@ -49,9 +37,7 @@ public class LocaleText {
      * @param args    Set the arguments to pass to the message.
      * @return Returns the formatted text.
      */
-    public String get(Message message, Object... args) {
-        return get(message.getKey(), args);
-    }
+    String get(Message message, Object... args);
 
     /**
      * Get the text for the given message.
@@ -60,12 +46,5 @@ public class LocaleText {
      * @param args    Set the arguments to pass to the message.
      * @return Returns the formatted text.
      */
-    public String get(String message, Object... args) {
-        try {
-            return messageSource.getMessage(message, args);
-        } catch (NoSuchMessageException ex) {
-            log.warn("Message key '" + message + "' not found", ex);
-            return message;
-        }
-    }
+    String get(String message, Object... args);
 }

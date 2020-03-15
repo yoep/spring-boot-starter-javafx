@@ -1,10 +1,9 @@
-package com.github.spring.boot.javafx.view.impl;
+package com.github.spring.boot.javafx.view;
 
 import com.github.spring.boot.javafx.text.LocaleText;
 import com.github.spring.boot.javafx.ui.scale.ScaleAware;
 import com.github.spring.boot.javafx.ui.size.SizeAware;
 import com.github.spring.boot.javafx.ui.stage.StageAware;
-import com.github.spring.boot.javafx.view.*;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Rectangle2D;
@@ -17,7 +16,6 @@ import javafx.stage.Modality;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
