@@ -1,8 +1,5 @@
 package com.github.spring.boot.javafx.view;
 
-import com.github.spring.boot.javafx.view.StageNotFoundException;
-import com.github.spring.boot.javafx.view.ViewManager;
-import com.github.spring.boot.javafx.view.ViewManagerPolicy;
 import javafx.application.Platform;
 import javafx.beans.property.Property;
 import javafx.beans.property.ReadOnlyProperty;

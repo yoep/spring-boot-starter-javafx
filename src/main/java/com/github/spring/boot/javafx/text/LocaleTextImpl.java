@@ -21,7 +21,7 @@ import java.util.ResourceBundle;
 @Slf4j
 public class LocaleTextImpl implements LocaleText {
     private final ResourceBundleMessageSource messageSource;
-    private final MessageSourceAccessor messageSourceAccessor;
+    private final ObjectProperty<MessageSourceAccessor> messageSourceAccessor = new SimpleObjectProperty<>(this, MESSAGE_SOURCE_ACCESSOR_PROPERTY);
     private final ObjectProperty<ResourceBundle> resourceBundle = new SimpleObjectProperty<>(this, RESOURCE_BUNDLE_PROPERTY);
 
     /**
@@ -32,12 +32,25 @@ public class LocaleTextImpl implements LocaleText {
     public LocaleTextImpl(ResourceBundleMessageSource messageSource) {
         Assert.notNull(messageSource, "messageSource cannot be null");
         this.messageSource = messageSource;
-        this.messageSourceAccessor = new MessageSourceAccessor(messageSource);
 
-        setResourceBundle(createResourceBundle(Locale.getDefault()));
+        init();
     }
 
     //region Properties
+
+    @Override
+    public MessageSourceAccessor getMessageSource() {
+        return messageSourceAccessor.get();
+    }
+
+    @Override
+    public ObjectProperty<MessageSourceAccessor> messageSourceProperty() {
+        return messageSourceAccessor;
+    }
+
+    private void setMessageSource(MessageSourceAccessor messageSourceAccessor) {
+        this.messageSourceAccessor.set(messageSourceAccessor);
+    }
 
     @Override
     public ResourceBundle getResourceBundle() {
@@ -58,11 +71,6 @@ public class LocaleTextImpl implements LocaleText {
     //region Getters
 
     @Override
-    public MessageSourceAccessor getMessageSource() {
-        return messageSourceAccessor;
-    }
-
-    @Override
     public String get(Message message) {
         return get(message, ArrayUtils.EMPTY_OBJECT_ARRAY);
     }
@@ -75,7 +83,7 @@ public class LocaleTextImpl implements LocaleText {
     @Override
     public String get(String message, Object... args) {
         try {
-            return messageSourceAccessor.getMessage(message, args);
+            return getMessageSource().getMessage(message, args);
         } catch (NoSuchMessageException ex) {
             log.warn("Message key '" + message + "' not found", ex);
             return message;
@@ -88,12 +96,22 @@ public class LocaleTextImpl implements LocaleText {
 
     @Override
     public void updateLocale(Locale locale) {
+        setMessageSource(createMessageSourceAccessor(locale));
         setResourceBundle(createResourceBundle(locale));
     }
 
     //endregion
 
     //region Functions
+
+    private void init() {
+        setMessageSource(createMessageSourceAccessor(Locale.getDefault()));
+        setResourceBundle(createResourceBundle(Locale.getDefault()));
+    }
+
+    private MessageSourceAccessor createMessageSourceAccessor(Locale locale) {
+        return new MessageSourceAccessor(messageSource, locale);
+    }
 
     private MessageSourceResourceBundle createResourceBundle(Locale locale) {
         return new MessageSourceResourceBundle(messageSource, locale);

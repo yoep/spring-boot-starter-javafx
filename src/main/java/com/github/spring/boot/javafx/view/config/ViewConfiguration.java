@@ -2,8 +2,8 @@ package com.github.spring.boot.javafx.view.config;
 
 import com.github.spring.boot.javafx.text.LocaleTextImpl;
 import com.github.spring.boot.javafx.view.ViewLoader;
-import com.github.spring.boot.javafx.view.ViewManager;
 import com.github.spring.boot.javafx.view.ViewLoaderImpl;
+import com.github.spring.boot.javafx.view.ViewManager;
 import com.github.spring.boot.javafx.view.ViewManagerImpl;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.ApplicationContext;

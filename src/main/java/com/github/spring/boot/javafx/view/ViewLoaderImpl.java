@@ -116,18 +116,6 @@ public class ViewLoaderImpl implements ViewLoader {
         return loadComponent(loader);
     }
 
-    @Override
-    public Pane loadComponent(String componentView, Object controller) {
-        Assert.hasText(componentView, "componentView cannot be empty");
-        return load(ViewLoader.COMPONENT_DIRECTORY + File.separator + componentView, controller);
-    }
-
-    @Override
-    public Pane loadComponent(String componentView) {
-        Assert.hasText(componentView, "componentView cannot be empty");
-        return load(ViewLoader.COMPONENT_DIRECTORY + File.separator + componentView);
-    }
-
     //endregion
 
     //region Functions

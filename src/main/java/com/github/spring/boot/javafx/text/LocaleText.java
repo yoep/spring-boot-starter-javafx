@@ -12,9 +12,28 @@ import java.util.ResourceBundle;
  */
 public interface LocaleText {
     /**
+     * The property name of the locale text message source accessor.
+     */
+    String MESSAGE_SOURCE_ACCESSOR_PROPERTY = "messageSourceAccessor";
+
+    /**
      * The property name of the locale text resource bundle.
      */
     String RESOURCE_BUNDLE_PROPERTY = "resourceBundle";
+
+    /**
+     * Get the message source that is used by this {@link LocaleText}.
+     *
+     * @return Returns the message source.
+     */
+    MessageSourceAccessor getMessageSource();
+
+    /**
+     * Get the message source accessor property of this locale text.
+     *
+     * @return Returns the read-only message source accessor property.
+     */
+    ReadOnlyObjectProperty<MessageSourceAccessor> messageSourceProperty();
 
     /**
      * Get the resource bundle that is used by this {@link LocaleText}.
@@ -29,13 +48,6 @@ public interface LocaleText {
      * @return Returns the read-only instance of the resource bundle property.
      */
     ReadOnlyObjectProperty<ResourceBundle> resourceBundleProperty();
-
-    /**
-     * Get the message source that is used by this {@link LocaleText}.
-     *
-     * @return Returns the message source.
-     */
-    MessageSourceAccessor getMessageSource();
 
     /**
      * Get the text for the given message key.
