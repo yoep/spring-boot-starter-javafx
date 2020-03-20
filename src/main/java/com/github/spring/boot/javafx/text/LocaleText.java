@@ -1,7 +1,10 @@
 package com.github.spring.boot.javafx.text;
 
+import javafx.beans.property.ReadOnlyObjectProperty;
 import org.springframework.context.support.MessageSourceAccessor;
-import org.springframework.context.support.MessageSourceResourceBundle;
+
+import java.util.Locale;
+import java.util.ResourceBundle;
 
 /**
  * Defines a easy way of loading localized text messages.
@@ -9,18 +12,30 @@ import org.springframework.context.support.MessageSourceResourceBundle;
  */
 public interface LocaleText {
     /**
-     * Get the message source that is used by this {@link LocaleText}.
-     *
-     * @return Returns the message source.
+     * The property name of the locale text resource bundle.
      */
-    MessageSourceAccessor getMessageSource();
+    String RESOURCE_BUNDLE_PROPERTY = "resourceBundle";
 
     /**
      * Get the resource bundle that is used by this {@link LocaleText}.
      *
      * @return Returns the resource bundle.
      */
-    MessageSourceResourceBundle getResourceBundle();
+    ResourceBundle getResourceBundle();
+
+    /**
+     * Get the resource bundle property of this locale text.
+     *
+     * @return Returns the read-only instance of the resource bundle property.
+     */
+    ReadOnlyObjectProperty<ResourceBundle> resourceBundleProperty();
+
+    /**
+     * Get the message source that is used by this {@link LocaleText}.
+     *
+     * @return Returns the message source.
+     */
+    MessageSourceAccessor getMessageSource();
 
     /**
      * Get the text for the given message key.
@@ -47,4 +62,11 @@ public interface LocaleText {
      * @return Returns the formatted text.
      */
     String get(String message, Object... args);
+
+    /**
+     * Update the locale that needs to be used for the localized texts.
+     *
+     * @param locale The new locale to use.
+     */
+    void updateLocale(Locale locale);
 }

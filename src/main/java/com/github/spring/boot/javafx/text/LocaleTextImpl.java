@@ -1,13 +1,18 @@
 package com.github.spring.boot.javafx.text;
 
+import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.ReadOnlyObjectProperty;
+import javafx.beans.property.SimpleObjectProperty;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.ArrayUtils;
 import org.springframework.context.NoSuchMessageException;
 import org.springframework.context.support.MessageSourceAccessor;
 import org.springframework.context.support.MessageSourceResourceBundle;
 import org.springframework.context.support.ResourceBundleMessageSource;
+import org.springframework.util.Assert;
 
 import java.util.Locale;
+import java.util.ResourceBundle;
 
 /**
  * Get the localized text for the given message key.
@@ -15,8 +20,10 @@ import java.util.Locale;
  */
 @Slf4j
 public class LocaleTextImpl implements LocaleText {
-    private final MessageSourceAccessor messageSource;
-    private final MessageSourceResourceBundle resourceBundle;
+    private final ResourceBundleMessageSource messageSource;
+    private final MessageSourceAccessor messageSourceAccessor;
+    private final ObjectProperty<ResourceBundle> resourceBundle =
+            new SimpleObjectProperty<>(this, RESOURCE_BUNDLE_PROPERTY, createResourceBundle(Locale.getDefault()));
 
     /**
      * Initialize a new instance of {@link LocaleTextImpl}.
@@ -24,18 +31,34 @@ public class LocaleTextImpl implements LocaleText {
      * @param messageSource set the message source to use.
      */
     public LocaleTextImpl(ResourceBundleMessageSource messageSource) {
-        this.messageSource = new MessageSourceAccessor(messageSource);
-        this.resourceBundle = new MessageSourceResourceBundle(messageSource, Locale.getDefault());
+        Assert.notNull(messageSource, "messageSource cannot be null");
+        this.messageSource = messageSource;
+        this.messageSourceAccessor = new MessageSourceAccessor(messageSource);
     }
+
+    //region Properties
+
+    @Override
+    public ResourceBundle getResourceBundle() {
+        return resourceBundle.get();
+    }
+
+    @Override
+    public ReadOnlyObjectProperty<ResourceBundle> resourceBundleProperty() {
+        return resourceBundle;
+    }
+
+    private void setResourceBundle(ResourceBundle resourceBundle) {
+        this.resourceBundle.set(resourceBundle);
+    }
+
+    //endregion
+
+    //region Getters
 
     @Override
     public MessageSourceAccessor getMessageSource() {
-        return messageSource;
-    }
-
-    @Override
-    public MessageSourceResourceBundle getResourceBundle() {
-        return resourceBundle;
+        return messageSourceAccessor;
     }
 
     @Override
@@ -51,10 +74,29 @@ public class LocaleTextImpl implements LocaleText {
     @Override
     public String get(String message, Object... args) {
         try {
-            return messageSource.getMessage(message, args);
+            return messageSourceAccessor.getMessage(message, args);
         } catch (NoSuchMessageException ex) {
             log.warn("Message key '" + message + "' not found", ex);
             return message;
         }
     }
+
+    //endregion
+
+    //region Methods
+
+    @Override
+    public void updateLocale(Locale locale) {
+        setResourceBundle(createResourceBundle(locale));
+    }
+
+    //endregion
+
+    //region Functions
+
+    private MessageSourceResourceBundle createResourceBundle(Locale locale) {
+        return new MessageSourceResourceBundle(messageSource, locale);
+    }
+
+    //endregion
 }
