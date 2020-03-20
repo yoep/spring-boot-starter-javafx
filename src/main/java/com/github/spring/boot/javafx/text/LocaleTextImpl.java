@@ -22,8 +22,7 @@ import java.util.ResourceBundle;
 public class LocaleTextImpl implements LocaleText {
     private final ResourceBundleMessageSource messageSource;
     private final MessageSourceAccessor messageSourceAccessor;
-    private final ObjectProperty<ResourceBundle> resourceBundle =
-            new SimpleObjectProperty<>(this, RESOURCE_BUNDLE_PROPERTY, createResourceBundle(Locale.getDefault()));
+    private final ObjectProperty<ResourceBundle> resourceBundle = new SimpleObjectProperty<>(this, RESOURCE_BUNDLE_PROPERTY);
 
     /**
      * Initialize a new instance of {@link LocaleTextImpl}.
@@ -34,6 +33,8 @@ public class LocaleTextImpl implements LocaleText {
         Assert.notNull(messageSource, "messageSource cannot be null");
         this.messageSource = messageSource;
         this.messageSourceAccessor = new MessageSourceAccessor(messageSource);
+
+        setResourceBundle(createResourceBundle(Locale.getDefault()));
     }
 
     //region Properties
