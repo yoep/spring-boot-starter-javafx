@@ -12,8 +12,15 @@ import org.springframework.context.ApplicationContext;
  * Abstract Spring Boot extension of {@link Application}.
  */
 public abstract class SpringJavaFXApplication extends Application {
-    private static String[] ARGUMENTS;
+    /**
+     * The arguments passed to the application during launch.
+     */
+    protected static String[] ARGUMENTS = new String[0];
 
+    /**
+     * The application context created by the JavaFX starter.
+     * This context will only be available once the {@link #init()} has been invoked by JavaFX.
+     */
     protected ApplicationContext applicationContext;
 
     /**
