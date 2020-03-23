@@ -12,7 +12,7 @@
 
     <groupId>com.github.yoep</groupId>
     <artifactId>spring-boot-starter-javafx</artifactId>
-    <version>1.0.3-SNAPSHOT</version>
+    <version>1.0.3</version>
     <packaging>jar</packaging>
 
     <name>Spring Boot starter JavaFX</name>
