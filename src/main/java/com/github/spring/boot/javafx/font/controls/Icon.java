@@ -27,6 +27,8 @@ public class Icon extends AbstractIcon {
     public static final String COMMENT_UNICODE = "\uf075";
     public static final String CROSS_UNICODE = "\uf00d";
     public static final String DOWNLOAD_UNICODE = "\uf019";
+    public static final String ELLIPSIS_H_UNICODE = "\uf141";
+    public static final String ELLIPSIS_V_UNICODE = "\uf142";
     public static final String EXPAND_UNICODE = "\uf065";
     public static final String EYE_SLASH_UNICODE = "\uf070";
     public static final String EYE_UNICODE = "\uf06e";
@@ -58,6 +60,9 @@ public class Icon extends AbstractIcon {
     public static final String STAR_HALF_EMPTY_UNICODE = "\uf123";
     public static final String STAR_HALF_UNICODE = "\uf089";
     public static final String STAR_UNICODE = "\uf005";
+    public static final String STEP_BACKWARD_UNICODE = "\uf048";
+    public static final String STEP_FORWARD_UNICODE = "\uf051";
+    public static final String STOP_UNICODE = "\uf04d";
     public static final String TELEVISION_UNICODE = "\uf26c";
     public static final String TRASH_O_UNICODE = "\uf014";
     public static final String TRASH_UNICODE = "\uf1f8";
