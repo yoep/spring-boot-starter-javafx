@@ -14,6 +14,7 @@ import java.util.List;
 public class Icon extends AbstractIcon {
     //region Unicodes
 
+    public static final String BACKWARD_UNICODE = "\uf04a";
     public static final String BAN_UNICODE = "\uf05e";
     public static final String CARET_DOWN_UNICODE = "\uf0d7";
     public static final String CARET_LEFT_UNICODE = "\uf0d9";
@@ -37,6 +38,7 @@ public class Icon extends AbstractIcon {
     public static final String FOLDER_OPEN_O_UNICODE = "\uf115";
     public static final String FOLDER_OPEN_UNICODE = "\uf07c";
     public static final String FONT_UNICODE = "\uf031";
+    public static final String FORWARD_UNICODE = "\uf04e";
     public static final String HEART_UNICODE = "\uf004";
     public static final String HELP_UNICODE = "\uf059";
     public static final String HOME_UNICODE = "\uf015";
