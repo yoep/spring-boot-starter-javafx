@@ -20,6 +20,8 @@ import java.util.function.Consumer;
 @Slf4j
 @SuppressWarnings("unused")
 abstract class AbstractIcon extends Label {
+    public static final String STYLE_CLASS ="icon";
+
     private final DoubleProperty sizeFactorProperty = new SimpleDoubleProperty();
     private String fontFamily;
     private boolean updating;
@@ -61,6 +63,7 @@ abstract class AbstractIcon extends Label {
         initializeFont(filename);
         initializeSizeFactor();
         initializeFontFamilyListener();
+        initializeStyleClass();
     }
 
     private void initializeFont(String filename) {
@@ -93,6 +96,10 @@ abstract class AbstractIcon extends Label {
             setFont(Font.font(fontFamily, FontWeight.findByName(newValue.getStyle()), fontSize));
             updating = false;
         });
+    }
+
+    private void initializeStyleClass() {
+        this.getStyleClass().add(STYLE_CLASS);
     }
 
     private double getActualSize(double sizeFactor, double fontSize) {
