@@ -146,6 +146,7 @@
                 <artifactId>maven-release-plugin</artifactId>
                 <version>3.0.0-M1</version>
                 <configuration>
+                    <tagNameFormat>@{project.version}</tagNameFormat>
                     <preparationGoals>clean deploy -Possrh</preparationGoals>
                 </configuration>
             </plugin>
