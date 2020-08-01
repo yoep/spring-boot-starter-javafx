@@ -28,7 +28,9 @@
     </licenses>
 
     <scm>
-        <url>https://svn.apache.org/viewvc/maven</url>
+        <url>https://github.com/yoep/spring-boot-starter-javafx</url>
+        <connection>scm:git:git@github.com:yoep/spring-boot-starter-javafx.git</connection>
+        <tag>HEAD</tag>
     </scm>
 
     <distributionManagement>
