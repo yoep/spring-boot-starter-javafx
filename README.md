@@ -1,7 +1,7 @@
 # Spring Boot JavaFX starter
 
 Spring Boot starter for easy integration with JavaFX.
-This library provides easy integration with JavaJX as well as additional helpers for 
+This library provides easy integration with JavaFX as well as additional helpers for 
 loading & managing JavaFX views in Spring.
 
 ## Maven
