@@ -2,11 +2,12 @@ package com.github.spring.boot.javafx;
 
 import com.github.spring.boot.javafx.view.ViewManager;
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.application.Preloader;
 import javafx.stage.Stage;
 import org.springframework.boot.Banner;
 import org.springframework.boot.SpringApplication;
-import org.springframework.context.ApplicationContext;
+import org.springframework.context.ConfigurableApplicationContext;
 
 /**
  * Abstract Spring Boot extension of {@link Application}.
@@ -21,7 +22,7 @@ public abstract class SpringJavaFXApplication extends Application {
      * The application context created by the JavaFX starter.
      * This context will only be available once the {@link #init()} has been invoked by JavaFX.
      */
-    protected ApplicationContext applicationContext;
+    protected ConfigurableApplicationContext applicationContext;
 
     /**
      * Launch a JavaFX application with for the given class and program arguments.
@@ -72,5 +73,12 @@ public abstract class SpringJavaFXApplication extends Application {
     public void start(Stage primaryStage) throws Exception {
         ViewManager viewManager = applicationContext.getBean(ViewManager.class);
         viewManager.registerPrimaryStage(primaryStage);
+    }
+
+    @Override
+    public void stop() throws Exception {
+        Platform.exit();
+        applicationContext.close();
+        System.exit(0);
     }
 }
