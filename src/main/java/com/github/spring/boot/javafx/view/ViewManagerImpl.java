@@ -25,8 +25,8 @@ public class ViewManagerImpl implements ViewManager {
     public static final String PRIMARY_STAGE_PROPERTY = "primaryStage";
     public static final String POLICY_PROPERTY = "policy";
 
-    private final List<Window> windows = new ArrayList<>();
     private final ConfigurableApplicationContext applicationContext;
+    private final List<Window> windows = new ArrayList<>();
     private final Property<Stage> primaryStage = new SimpleObjectProperty<>(this, PRIMARY_STAGE_PROPERTY);
     private final Property<ViewManagerPolicy> policy = new SimpleObjectProperty<>(this, POLICY_PROPERTY, ViewManagerPolicy.CLOSEABLE);
 
