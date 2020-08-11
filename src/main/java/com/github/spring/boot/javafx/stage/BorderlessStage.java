@@ -17,7 +17,7 @@ public class BorderlessStage extends Stage {
      * Initialize a new instance of the borderless stage.
      */
     public BorderlessStage() {
-        this.stageWrapper = new BorderlessStageWrapper(new Stage());
+        this.stageWrapper = new BorderlessStageWrapper(this);
     }
 
     //endregion
