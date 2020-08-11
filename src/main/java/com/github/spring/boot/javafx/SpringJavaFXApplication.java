@@ -14,11 +14,6 @@ import org.springframework.context.ConfigurableApplicationContext;
  */
 public abstract class SpringJavaFXApplication extends Application {
     /**
-     * The arguments passed to the application during launch.
-     */
-    protected static String[] ARGUMENTS = new String[0];
-
-    /**
      * The application context created by the JavaFX starter.
      * This context will only be available once the {@link #init()} has been invoked by JavaFX.
      */
@@ -32,7 +27,6 @@ public abstract class SpringJavaFXApplication extends Application {
      */
     @SuppressWarnings("unused")
     public static void launch(Class<? extends Application> appClass, String... args) {
-        ARGUMENTS = args;
         Application.launch(appClass, args);
     }
 
@@ -45,7 +39,6 @@ public abstract class SpringJavaFXApplication extends Application {
      */
     @SuppressWarnings("unused")
     public static void launch(Class<? extends Application> appClass, Class<? extends Preloader> preloaderClass, String... args) {
-        ARGUMENTS = args;
         System.setProperty("javafx.preloader", preloaderClass.getName());
         Application.launch(appClass, args);
     }
@@ -57,16 +50,18 @@ public abstract class SpringJavaFXApplication extends Application {
      */
     @SuppressWarnings("unused")
     public static void launch(String... args) {
-        ARGUMENTS = args;
         Application.launch(args);
     }
 
     @Override
     public void init() {
+        Parameters parameters = getParameters();
         SpringApplication application = new SpringApplication(this.getClass());
+
         application.setBannerMode(Banner.Mode.OFF);
         application.setHeadless(false);
-        applicationContext = application.run(ARGUMENTS);
+
+        applicationContext = application.run(parameters.getRaw().toArray(new String[0]));
     }
 
     @Override
