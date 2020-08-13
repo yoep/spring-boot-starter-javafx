@@ -154,9 +154,9 @@ public class BorderlessStageWrapper {
     }
 
     private void onMouseMoved(MouseEvent event) {
-        // check if the stage is resizable
+        // check if the stage is allowed to be resized
         // if not, ignore this event
-        if (!stage.isResizable())
+        if (!isResizeAllowed())
             return;
 
         double x = event.getSceneX();
@@ -190,6 +190,12 @@ public class BorderlessStageWrapper {
     }
 
     private void onMousePressed(MouseEvent event) {
+        // check if the stage is in fullscreen
+        // if so, ignore this event
+        if (stage.isFullScreen()) {
+            return;
+        }
+
         xOffset = stage.getX() - event.getScreenX();
         yOffset = stage.getY() - event.getScreenY();
         xStart = stage.getWidth() - event.getSceneX();
@@ -200,7 +206,7 @@ public class BorderlessStageWrapper {
     private void onMouseDragged(MouseEvent event) {
         if (windowDrag)
             onWindowDrag(event);
-        if (windowResize && stage.isResizable())
+        if (windowResize && isResizeAllowed())
             onWindowResize(event);
     }
 
@@ -245,6 +251,10 @@ public class BorderlessStageWrapper {
                 stage.setHeight(height);
             }
         }
+    }
+
+    private boolean isResizeAllowed() {
+        return stage.isResizable() && !stage.isFullScreen();
     }
 
     private boolean isValidWindowDragEvent(MouseEvent event) {
