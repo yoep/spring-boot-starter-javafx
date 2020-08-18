@@ -10,7 +10,7 @@
 
     <groupId>com.github.yoep</groupId>
     <artifactId>spring-boot-starter-javafx</artifactId>
-    <version>1.0.7</version>
+    <version>1.0.8-SNAPSHOT</version>
     <packaging>jar</packaging>
 
     <name>Spring Boot starter JavaFX</name>
@@ -28,7 +28,7 @@
     <scm>
         <url>https://github.com/yoep/spring-boot-starter-javafx</url>
         <connection>scm:git:git@github.com:yoep/spring-boot-starter-javafx.git</connection>
-        <tag>1.0.7</tag>
+        <tag>HEAD</tag>
     </scm>
 
     <distributionManagement>
