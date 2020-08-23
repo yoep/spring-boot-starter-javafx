@@ -1,6 +1,6 @@
 package com.github.spring.boot.javafx.view.config;
 
-import com.github.spring.boot.javafx.text.LocaleTextImpl;
+import com.github.spring.boot.javafx.text.LocaleText;
 import com.github.spring.boot.javafx.view.ViewLoader;
 import com.github.spring.boot.javafx.view.ViewLoaderImpl;
 import com.github.spring.boot.javafx.view.ViewManager;
@@ -15,7 +15,7 @@ import org.springframework.context.annotation.Configuration;
 public class ViewConfiguration {
     @Bean
     @ConditionalOnMissingBean(ViewLoader.class)
-    public ViewLoader viewLoader(ApplicationContext applicationContext, ViewManager viewManager, LocaleTextImpl localeText) {
+    public ViewLoader viewLoader(ApplicationContext applicationContext, ViewManager viewManager, LocaleText localeText) {
         return new ViewLoaderImpl(applicationContext, viewManager, localeText);
     }
 
