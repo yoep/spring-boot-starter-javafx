@@ -1,6 +1,6 @@
 package com.github.spring.boot.javafx.view;
 
-import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.beans.property.Property;
 import javafx.beans.property.ReadOnlyProperty;
 import javafx.beans.property.SimpleObjectProperty;
@@ -135,10 +135,8 @@ public class ViewManagerImpl implements ViewManager {
     }
 
     private void exitApplication() {
-        Application application = applicationContext.getBean(Application.class);
-
         try {
-            application.stop();
+            Platform.exit();
         } catch (Exception ex) {
             log.error("Failed to stop application gracefully, " + ex.getMessage(), ex);
             System.exit(1);

@@ -2,7 +2,6 @@ package com.github.spring.boot.javafx;
 
 import com.github.spring.boot.javafx.view.ViewManager;
 import javafx.application.Application;
-import javafx.application.Platform;
 import javafx.application.Preloader;
 import javafx.stage.Stage;
 import org.springframework.boot.Banner;
@@ -72,7 +71,6 @@ public abstract class SpringJavaFXApplication extends Application {
 
     @Override
     public void stop() throws Exception {
-        Platform.exit();
         applicationContext.close();
         System.exit(0);
     }
