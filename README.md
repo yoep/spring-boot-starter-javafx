@@ -39,6 +39,35 @@ public class MySpringApplication extends SpringJavaFXApplication {
 }
 ```
 
+### Borderless stage
+
+You can create a borderless (undecorated) stage which is still resizable 
+and draggable by using the `BorderlessStage` class.
+
+This functionality can also be achieved on the primary stage by using
+the `BorderlessStageWrapper` as follows:
+
+```java
+
+@SpringBootApplication
+public class MySpringApplication extends SpringJavaFXApplication {    
+    @Override
+    public void start(Stage stage) throws Exception {
+        var myBorderlessStage = new BorderlessStageWrapper(stage);
+        super.start(stage);
+        
+        // set the height of the header
+        // this height is used within the BorderlessStage
+        // to drag the window around
+        myBorderlessStage.setHeader(20);
+        // set the virtual border of the BorderlessStage
+        // this width is used to determine when the user can grab 
+        // the non-existing border to resize the borderless stage
+        myBorderlessStage.setResizeBorder(2);
+    }
+}
+```
+
 ## FAT jar packaging
 
 It is **recommended to not use** the `spring-boot-maven-plugin` if you want to package the JavaFX application into a fat jar.
