@@ -8,6 +8,7 @@ import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Group;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.layout.Pane;
@@ -98,7 +99,7 @@ public class ViewLoaderImpl implements ViewLoader {
     }
 
     @Override
-    public Pane load(String view) {
+    public <T extends Node> T load(String view) {
         Assert.hasText(view, "view cannot be empty");
         FXMLLoader loader = loadResource(view);
 
@@ -107,7 +108,7 @@ public class ViewLoaderImpl implements ViewLoader {
     }
 
     @Override
-    public Pane load(String view, Object controller) {
+    public <T extends Node> T load(String view, Object controller) {
         Assert.hasText(view, "view cannot be empty");
         Assert.notNull(controller, "controller cannot be null");
         FXMLLoader loader = loadResource(view);
@@ -125,9 +126,10 @@ public class ViewLoaderImpl implements ViewLoader {
      * This method attaches the available resources of the application to the loader before loading the actual component.
      *
      * @param loader The loader to load the component from.
+     * @param <T>    The root node of the view.
      * @return Returns the loaded view component on success, else null when the loading failed.
      */
-    protected Pane loadComponent(FXMLLoader loader) {
+    protected <T extends Node> T loadComponent(FXMLLoader loader) {
         Assert.notNull(loader, "loader cannot be null");
         loader.setResources(localeText.getResourceBundle());
 

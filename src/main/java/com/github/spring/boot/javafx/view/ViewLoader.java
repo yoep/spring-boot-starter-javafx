@@ -1,5 +1,6 @@
 package com.github.spring.boot.javafx.view;
 
+import javafx.scene.Node;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
@@ -8,10 +9,6 @@ public interface ViewLoader {
      * The directory containing the FXML files.
      */
     String VIEW_DIRECTORY = "views";
-    /**
-     * The directory containing the component FXML files.
-     */
-    String COMPONENT_DIRECTORY = "components";
     /**
      * The directory contain
      */
@@ -59,22 +56,25 @@ public interface ViewLoader {
     void showWindow(Pane pane, Object controller, ViewProperties properties);
 
     /**
-     * Load the given FXML view.
+     * Load the given FXML view file from the classpath.
      * Spring will inject the correct controller based on the {@code fx:controller} attribute in the view.
      *
-     * @param view The FXML file to load.
-     * @return Returns the root pane of the loaded FXML view if successfully loaded, else null.
+     * @param view  The FXML file to load.
+     * @param <T>   The root node of the view file.
+     * @return Returns the root node of the loaded FXML view if successfully loaded, else null.
      */
-    Pane load(String view);
+    <T extends Node> T load(String view);
 
     /**
-     * Load the given FXML view and use the given controller in this view. (discouraged)
-     * Use Spring's {@link org.springframework.context.annotation.Scope} annotation on the {@link org.springframework.stereotype.Controller} instead.
+     * Load the given FXML view from the classpath and use the given controller within the loaded view. (discouraged)
+     * Use Spring's {@link org.springframework.context.annotation.Scope} annotation on the {@link com.github.spring.boot.javafx.stereotype.ViewController}
+     * instead.
      * This will create a new controller instance each time the view is loaded (and use {@link #load(String)} instead).
      *
      * @param view       The FXML file to load.
      * @param controller The controller to wire into the view.
-     * @return Returns the root pane of the loaded FXML view if successfully loaded, else null.
+     * @param <T>        The root node of the view file.
+     * @return Returns the root node of the loaded FXML view if successfully loaded, else null.
      */
-    Pane load(String view, Object controller);
+    <T extends Node> T load(String view, Object controller);
 }
