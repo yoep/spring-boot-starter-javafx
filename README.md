@@ -12,7 +12,7 @@ The library is available in the maven central repository and can be used by addi
 <dependency>
   <groupId>com.github.yoep</groupId>
   <artifactId>spring-boot-starter-javafx</artifactId>
-  <version>1.0.10</version>
+  <version>1.0.12</version>
 </dependency>
 ```
 
@@ -64,6 +64,49 @@ public class MySpringApplication extends SpringJavaFXApplication {
         // this width is used to determine when the user can grab 
         // the non-existing border to resize the borderless stage
         myBorderlessStage.setResizeBorder(2);
+    }
+}
+```
+
+### View controllers
+
+Use the following stereotype to define a view controller.
+This is not required as the library will use any bean that is known within the 
+`ApplicationContext` to bind them to views.
+
+```java
+@ViewController
+public class MyViewController {
+}
+```
+
+### Loading views
+
+There are 2 options when loading views, automatic controller selection through beans
+or manually defining the controller that needs to be used by JavaFX.
+
+- Automatically use a controller from the `ApplicationContext`.
+
+```java
+private class Example {
+    private ViewLoader viewLoader;
+    
+    private void loadView() {
+        viewLoader.load("my-view-file.fxml");
+    }
+}
+```
+
+- Define a controller which needs to be used in the view.
+
+```java
+private class Example {
+    private ViewLoader viewLoader;
+    
+    private void loadView() {
+        ViewController controller = new ViewController();
+        
+        viewLoader.load("my-view-file.fxml", controller);
     }
 }
 ```
