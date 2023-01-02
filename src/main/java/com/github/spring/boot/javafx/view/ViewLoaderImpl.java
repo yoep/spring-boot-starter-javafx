@@ -26,6 +26,7 @@ import org.springframework.util.Assert;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Objects;
 import java.util.Optional;
 
 @Slf4j
@@ -244,8 +245,11 @@ public class ViewLoaderImpl implements ViewLoader {
 
     private void setWindowViewProperties(Stage window, ViewProperties properties) {
         window.setTitle(properties.getTitle());
-        window.setMaximized(properties.isMaximized());
-        window.setResizable(properties.isResizable());
+        // prevent JavaFX from making unnecessary changes to the window
+        if (!Objects.equals(window.isMaximized(), properties.isMaximized()))
+            window.setMaximized(properties.isMaximized());
+        if (!Objects.equals(window.isResizable(), properties.isResizable()))
+            window.setResizable(properties.isResizable());
 
         Optional.ofNullable(properties.getIcon())
                 .filter(StringUtils::isNotBlank)
