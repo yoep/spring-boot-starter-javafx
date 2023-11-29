@@ -5,12 +5,12 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.7.7</version>
+        <version>3.2.0</version>
     </parent>
 
     <groupId>com.github.yoep</groupId>
     <artifactId>spring-boot-starter-javafx</artifactId>
-    <version>1.0.13-SNAPSHOT</version>
+    <version>1.1.0-SNAPSHOT</version>
     <packaging>jar</packaging>
 
     <name>Spring Boot starter JavaFX</name>
@@ -43,11 +43,24 @@
     </distributionManagement>
 
     <properties>
-        <java.version>1.8</java.version>
-        <maven.compiler.source>1.8</maven.compiler.source>
-        <maven.compiler.target>1.8</maven.compiler.target>
+        <java.version>17</java.version>
+        <maven.compiler.source>17</maven.compiler.source>
+        <maven.compiler.target>17</maven.compiler.target>
 
-        <javafx.version>17.0.2</javafx.version>
+        <!-- Dependencies -->
+        <javafx.version>21.0.1</javafx.version>
+
+        <!-- Test Dependencies -->
+        <junit.jupiter.engine.version>5.10.1</junit.jupiter.engine.version>
+        <mockito.inline.version>5.2.0</mockito.inline.version>
+        <mockito.junit.jupiter.version>5.7.0</mockito.junit.jupiter.version>
+        <testfx.junit.version>4.0.17</testfx.junit.version>
+
+        <!-- Plugins -->
+        <maven.gpg.plugin.version>3.1.0</maven.gpg.plugin.version>
+        <maven.source.plugin.version>3.2.0</maven.source.plugin.version>
+        <maven.javadoc.plugin.version>3.3.0</maven.javadoc.plugin.version>
+        <maven.release.plugin.version>3.0.1</maven.release.plugin.version>
     </properties>
 
     <dependencies>
@@ -94,22 +107,25 @@
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-engine</artifactId>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.mockito</groupId>
-            <artifactId>mockito-junit-jupiter</artifactId>
+            <version>${junit.jupiter.engine.version}</version>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.mockito</groupId>
             <artifactId>mockito-inline</artifactId>
+            <version>${mockito.inline.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-junit-jupiter</artifactId>
+            <version>${mockito.junit.jupiter.version}</version>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.testfx</groupId>
             <artifactId>testfx-junit5</artifactId>
-            <version>4.0.16-alpha</version>
+            <version>${testfx.junit.version}</version>
             <scope>test</scope>
         </dependency>
     </dependencies>
@@ -120,7 +136,7 @@
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-gpg-plugin</artifactId>
-                    <version>1.5</version>
+                    <version>${maven.gpg.plugin.version}</version>
                     <executions>
                         <execution>
                             <id>sign-artifacts</id>
@@ -138,7 +154,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-source-plugin</artifactId>
-                <version>3.2.0</version>
+                <version>${maven.source.plugin.version}</version>
                 <executions>
                     <execution>
                         <id>attach-sources</id>
@@ -152,7 +168,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-javadoc-plugin</artifactId>
-                <version>2.9.1</version>
+                <version>${maven.javadoc.plugin.version}</version>
                 <executions>
                     <execution>
                         <id>attach-javadocs</id>
@@ -165,7 +181,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-release-plugin</artifactId>
-                <version>3.0.0-M1</version>
+                <version>${maven.release.plugin.version}</version>
                 <configuration>
                     <tagNameFormat>@{project.version}</tagNameFormat>
                     <preparationGoals>clean deploy -Possrh</preparationGoals>
