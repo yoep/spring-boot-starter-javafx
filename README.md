@@ -8,6 +8,16 @@ loading & managing JavaFX views in Spring.
 
 The library is available in the maven central repository and can be used by adding:
 
+_Spring Boot 3.X_
+```xml
+<dependency>
+  <groupId>com.github.yoep</groupId>
+  <artifactId>spring-boot-starter-javafx</artifactId>
+  <version>2.0.0</version>
+</dependency>
+```
+
+_Spring Boot 2.X_
 ```xml
 <dependency>
   <groupId>com.github.yoep</groupId>
@@ -15,6 +25,22 @@ The library is available in the maven central repository and can be used by addi
   <version>1.0.12</version>
 </dependency>
 ```
+
+## Requirements
+
+### Version 1.0.0+
+
+This is the legacy version of the library which requires Spring Boot 2+ and Java 8+.
+
+- Spring Boot 2+
+- Java 8+
+
+### Version 2.0.0+
+
+This is the new major version of the library which requires Spring Boot 3+ and Java 17+.
+
+- Spring Boot 3+
+- Java 17+
 
 ## Usage
 
