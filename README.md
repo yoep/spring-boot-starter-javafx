@@ -46,8 +46,7 @@ This is the new major version of the library which requires Spring Boot 3+ and J
 
 Create a class which extends `SpringJavaFXApplication` and launch the JavaFX application from this class.
 
-Example:
-
+_main entry example_
 ```java
 @SpringBootApplication
 public class MySpringApplication extends SpringJavaFXApplication {
@@ -61,6 +60,21 @@ public class MySpringApplication extends SpringJavaFXApplication {
         super.start(primaryStage);
         
         // YOUR CODE ON STARTUP HERE
+    }
+}
+```
+
+Create a `ResourceBundle` bean which can be used by JavaFX within `.fxml` files.
+
+_resource bundle example_
+```java
+@Configuration
+public class LanguageConfig {
+    @Bean
+    public ResourceBundleMessageSource messageSource() {
+        ResourceBundleMessageSource messageSource = new ResourceBundleMessageSource();
+        messageSource.setBasenames("lang/example");
+        return messageSource;
     }
 }
 ```
