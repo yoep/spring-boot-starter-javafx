@@ -13,10 +13,10 @@ import lombok.EqualsAndHashCode;
 import lombok.Value;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.ConfigurableApplicationContext;
-import org.springframework.util.Assert;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 @Slf4j
@@ -84,7 +84,7 @@ public class ViewManagerImpl implements ViewManager {
 
     @Override
     public void registerPrimaryStage(Stage primaryStage) {
-        Assert.notNull(primaryStage, "primaryStage cannot be null");
+        Objects.requireNonNull(primaryStage, "primaryStage cannot be null");
         if (getPrimaryStage().isPresent()) {
             log.warn("Ignoring primary stage register as one has already been registered");
             return;
@@ -96,8 +96,8 @@ public class ViewManagerImpl implements ViewManager {
 
     @Override
     public void addWindowView(Stage window, Scene view) {
-        Assert.notNull(window, "window cannot be null");
-        Assert.notNull(view, "view cannot be null");
+        Objects.requireNonNull(window, "window cannot be null");
+        Objects.requireNonNull(view, "view cannot be null");
         addWindowView(window, view, false);
     }
 

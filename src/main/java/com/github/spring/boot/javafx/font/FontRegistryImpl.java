@@ -1,11 +1,10 @@
 package com.github.spring.boot.javafx.font;
 
 import javafx.scene.text.Font;
-import org.springframework.util.Assert;
 
-import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Optional;
 
 /**
@@ -29,15 +28,15 @@ public class FontRegistryImpl implements FontRegistry {
 
     @Override
     public Font loadFont(String filename) {
-        Assert.notNull(filename, "filename cannot be null");
-        Font defaultFont = Font.getDefault();
+        Objects.requireNonNull(filename, "filename cannot be null");
+        var defaultFont = Font.getDefault();
 
         return loadFont(filename, defaultFont.getSize());
     }
 
     @Override
     public Font loadFont(String filename, double size) {
-        Assert.notNull(filename, "filename cannot be null");
+        Objects.requireNonNull(filename, "filename cannot be null");
 
         if (loadedFonts.containsKey(filename))
             return createFontFromAlreadyLoadedFont(loadedFonts.get(filename), size);
@@ -46,8 +45,8 @@ public class FontRegistryImpl implements FontRegistry {
     }
 
     private Font loadFontResource(String filename, double size) {
-        URL resource = getClass().getResource(FONT_DIRECTORY + filename);
-        Font font = Optional.ofNullable(Font.loadFont(resource.toExternalForm(), size))
+        var resource = getClass().getResource(FONT_DIRECTORY + filename);
+        var font = Optional.ofNullable(Font.loadFont(resource.toExternalForm(), size))
                 .orElseThrow(() -> new FontException(filename));
 
         loadedFonts.put(filename, font);

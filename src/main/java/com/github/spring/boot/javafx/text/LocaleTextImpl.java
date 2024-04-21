@@ -9,9 +9,9 @@ import org.springframework.context.NoSuchMessageException;
 import org.springframework.context.support.MessageSourceAccessor;
 import org.springframework.context.support.MessageSourceResourceBundle;
 import org.springframework.context.support.ResourceBundleMessageSource;
-import org.springframework.util.Assert;
 
 import java.util.Locale;
+import java.util.Objects;
 import java.util.ResourceBundle;
 
 /**
@@ -30,7 +30,7 @@ public class LocaleTextImpl implements LocaleText {
      * @param messageSource set the message source to use.
      */
     public LocaleTextImpl(ResourceBundleMessageSource messageSource) {
-        Assert.notNull(messageSource, "messageSource cannot be null");
+        Objects.requireNonNull(messageSource, "messageSource cannot be null");
         this.messageSource = messageSource;
 
         init();

@@ -6,7 +6,6 @@ import com.github.spring.boot.javafx.ui.size.SizeAware;
 import com.github.spring.boot.javafx.ui.stage.StageAware;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
-import javafx.geometry.Rectangle2D;
 import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.Scene;
@@ -16,8 +15,6 @@ import javafx.scene.layout.Region;
 import javafx.stage.Modality;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.context.ApplicationContext;
@@ -47,6 +44,9 @@ public class ViewLoaderImpl implements ViewLoader {
      * @param localeText         Set the UI text manager.
      */
     public ViewLoaderImpl(ApplicationContext applicationContext, ViewManager viewManager, LocaleText localeText) {
+        Objects.requireNonNull(applicationContext, "applicationContext cannot be null");
+        Objects.requireNonNull(viewManager, "viewManager cannot be null");
+        Objects.requireNonNull(localeText, "localeText cannot be null");
         this.applicationContext = applicationContext;
         this.viewManager = viewManager;
         this.localeText = localeText;
@@ -68,7 +68,7 @@ public class ViewLoaderImpl implements ViewLoader {
     @Override
     public void show(String view, ViewProperties properties) {
         Assert.hasText(view, "view cannot be empty");
-        Assert.notNull(properties, "properties cannot be null");
+        Objects.requireNonNull(properties, "properties cannot be null");
 
         Stage stage = viewManager.getPrimaryStage()
                 .orElseThrow(StageNotFoundException::new);
@@ -77,24 +77,24 @@ public class ViewLoaderImpl implements ViewLoader {
 
     @Override
     public void show(Stage window, String view, ViewProperties properties) {
-        Assert.notNull(window, "window cannot be empty");
+        Objects.requireNonNull(window, "window cannot be empty");
         Assert.hasText(view, "view cannot be empty");
-        Assert.notNull(properties, "properties cannot be null");
+        Objects.requireNonNull(properties, "properties cannot be null");
         showScene(window, view, properties);
     }
 
     @Override
     public void showWindow(String view, ViewProperties properties) {
         Assert.hasText(view, "view cannot be empty");
-        Assert.notNull(properties, "properties cannot be null");
+        Objects.requireNonNull(properties, "properties cannot be null");
         Platform.runLater(() -> showScene(new Stage(), view, properties));
     }
 
     @Override
     public void showWindow(Pane pane, Object controller, ViewProperties properties) {
-        Assert.notNull(pane, "pane cannot be null");
-        Assert.notNull(controller, "controller cannot be null");
-        Assert.notNull(properties, "properties cannot be null");
+        Objects.requireNonNull(pane, "pane cannot be null");
+        Objects.requireNonNull(controller, "controller cannot be null");
+        Objects.requireNonNull(properties, "properties cannot be null");
 
         Platform.runLater(() -> showScene(new Stage(), new SceneInfo(new Scene(pane), pane, controller), properties));
     }
@@ -102,7 +102,7 @@ public class ViewLoaderImpl implements ViewLoader {
     @Override
     public <T extends Node> T load(String view) {
         Assert.hasText(view, "view cannot be empty");
-        FXMLLoader loader = loadResource(view);
+        var loader = loadResource(view);
 
         loader.setControllerFactory(applicationContext::getBean);
         return loadComponent(loader);
@@ -111,8 +111,8 @@ public class ViewLoaderImpl implements ViewLoader {
     @Override
     public <T extends Node> T load(String view, Object controller) {
         Assert.hasText(view, "view cannot be empty");
-        Assert.notNull(controller, "controller cannot be null");
-        FXMLLoader loader = loadResource(view);
+        Objects.requireNonNull(controller, "controller cannot be null");
+        var loader = loadResource(view);
 
         loader.setController(controller);
         return loadComponent(loader);
@@ -131,7 +131,7 @@ public class ViewLoaderImpl implements ViewLoader {
      * @return Returns the loaded view component on success, else null when the loading failed.
      */
     protected <T extends Node> T loadComponent(FXMLLoader loader) {
-        Assert.notNull(loader, "loader cannot be null");
+        Objects.requireNonNull(loader, "loader cannot be null");
         loader.setResources(localeText.getResourceBundle());
 
         try {
@@ -150,8 +150,8 @@ public class ViewLoaderImpl implements ViewLoader {
      * @return Returns the loader for the given view file.
      */
     protected FXMLLoader loadResource(String view) {
-        Assert.notNull(view, "view cannot be null");
-        ClassPathResource componentResource = new ClassPathResource(ViewLoader.VIEW_DIRECTORY + File.separator + view);
+        Objects.requireNonNull(view, "view cannot be null");
+        var componentResource = new ClassPathResource(ViewLoader.VIEW_DIRECTORY + File.separator + view);
 
         if (!componentResource.exists())
             throw new ViewNotFoundException(view);
@@ -165,7 +165,7 @@ public class ViewLoaderImpl implements ViewLoader {
 
     private SceneInfo loadView(String view, ViewProperties properties) throws ViewNotFoundException {
         Assert.hasText(view, "view cannot be empty");
-        ClassPathResource fxmlResourceFile = new ClassPathResource(ViewLoader.VIEW_DIRECTORY + File.separator + view);
+        var fxmlResourceFile = new ClassPathResource(ViewLoader.VIEW_DIRECTORY + File.separator + view);
 
         if (fxmlResourceFile.exists()) {
             FXMLLoader loader;
@@ -207,7 +207,7 @@ public class ViewLoaderImpl implements ViewLoader {
     }
 
     private void showScene(Stage window, String view, ViewProperties properties) {
-        SceneInfo sceneInfo = loadView(view, properties);
+        var sceneInfo = loadView(view, properties);
 
         if (sceneInfo != null) {
             showScene(window, sceneInfo, properties);
@@ -217,8 +217,8 @@ public class ViewLoaderImpl implements ViewLoader {
     }
 
     private void showScene(Stage window, SceneInfo sceneInfo, ViewProperties properties) {
-        Scene scene = sceneInfo.getScene();
-        Object controller = sceneInfo.getController();
+        var scene = sceneInfo.scene();
+        var controller = sceneInfo.controller();
 
         window.setScene(scene);
         viewManager.addWindowView(window, scene);
@@ -266,7 +266,7 @@ public class ViewLoaderImpl implements ViewLoader {
      * @param window Set the window to center.
      */
     private void centerOnScreen(Stage window) {
-        Rectangle2D screenBounds = Screen.getPrimary().getVisualBounds();
+        var screenBounds = Screen.getPrimary().getVisualBounds();
 
         window.setX((screenBounds.getWidth() - window.getWidth()) / 2);
         window.setY((screenBounds.getHeight() - window.getHeight()) / 2);
@@ -274,7 +274,7 @@ public class ViewLoaderImpl implements ViewLoader {
 
     private Image loadWindowIcon(String iconName) {
         try {
-            ClassPathResource iconResource = new ClassPathResource(ViewLoader.IMAGE_DIRECTORY + File.separator + iconName);
+            var iconResource = new ClassPathResource(ViewLoader.IMAGE_DIRECTORY + File.separator + iconName);
 
             if (iconResource.exists()) {
                 return new Image(iconResource.getInputStream());
@@ -287,13 +287,13 @@ public class ViewLoaderImpl implements ViewLoader {
     }
 
     private void initWindowScale(SceneInfo sceneInfo) {
-        ScaleAware controller = (ScaleAware) sceneInfo.getController();
+        var controller = (ScaleAware) sceneInfo.controller();
 
-        controller.scale(sceneInfo.getScene(), sceneInfo.getRoot(), scale);
+        controller.scale(sceneInfo.scene(), sceneInfo.root(), scale);
     }
 
     private void initWindowSize(Scene scene, SizeAware controller) {
-        Stage window = (Stage) scene.getWindow();
+        var window = (Stage) scene.getWindow();
         controller.setInitialSize(window);
         window.widthProperty().addListener((observable, oldValue, newValue) -> {
             if (window.isShowing()) {
@@ -313,14 +313,14 @@ public class ViewLoaderImpl implements ViewLoader {
     }
 
     private void initWindowEvents(Scene scene, StageAware controller) {
-        final Stage window = (Stage) scene.getWindow();
+        final var window = (Stage) scene.getWindow();
 
         window.setOnShown(event -> controller.onShown(window));
         window.setOnCloseRequest(event -> controller.onClosed(window));
     }
 
     private void onScaleChanged(final float newValue) {
-        for (ScaleAware scaleAware : applicationContext.getBeansOfType(ScaleAware.class).values()) {
+        for (var scaleAware : applicationContext.getBeansOfType(ScaleAware.class).values()) {
             try {
                 scaleAware.onScaleChanged(newValue);
             } catch (Exception ex) {
@@ -331,20 +331,13 @@ public class ViewLoaderImpl implements ViewLoader {
 
     //endregion
 
-    @Getter
-    @AllArgsConstructor
-    static class SceneInfo {
-        /**
-         * The scene for the loaded FXML file.
-         */
-        private Scene scene;
-        /**
-         * The root region of the loaded FXML file.
-         */
-        private Region root;
-        /**
-         * The FXML controller that has been created.
-         */
-        private Object controller;
+    /**
+     * Contains the general information about a certain scene which might actively be rendered within JavaFX.
+     *
+     * @param scene      The scene to be rendered.
+     * @param root       The root region of the scene.
+     * @param controller The controller of the scene.
+     */
+    record SceneInfo(Scene scene, Region root, Object controller) {
     }
 }
