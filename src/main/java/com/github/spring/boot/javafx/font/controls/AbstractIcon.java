@@ -67,7 +67,7 @@ abstract class AbstractIcon extends Label {
     }
 
     private void initializeFont(String filename) {
-        Font font = FontRegistryImpl.getInstance().loadFont(filename);
+        var font = FontRegistryImpl.getInstance().loadFont(filename);
 
         fontFamily = font.getFamily();
         setFont(font);
@@ -76,8 +76,8 @@ abstract class AbstractIcon extends Label {
     private void initializeSizeFactor() {
         sizeFactorProperty.addListener((observable, oldValue, newValue) -> {
             updating = true;
-            Font oldFont = getFont();
-            double fontSize = getActualSize(newValue.doubleValue(), oldFont.getSize());
+            var oldFont = getFont();
+            var fontSize = getActualSize(newValue.doubleValue(), oldFont.getSize());
 
             setFont(Font.font(fontFamily, FontWeight.findByName(oldFont.getStyle()), fontSize));
             updating = false;

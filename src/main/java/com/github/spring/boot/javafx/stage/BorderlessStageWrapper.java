@@ -10,7 +10,8 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import lombok.Getter;
 import org.springframework.lang.Nullable;
-import org.springframework.util.Assert;
+
+import java.util.Objects;
 
 /**
  * The {@link BorderlessStageWrapper} wraps around an existing stage and converts it into a borderless stage.
@@ -41,7 +42,7 @@ public class BorderlessStageWrapper {
     //region Constructors
 
     public BorderlessStageWrapper(Stage stage) {
-        Assert.notNull(stage, "stage cannot be null");
+        Objects.requireNonNull(stage, "stage cannot be null");
         this.stage = stage;
         init();
     }
@@ -140,14 +141,14 @@ public class BorderlessStageWrapper {
     }
 
     private void removeSceneListeners(Scene scene) {
-        Assert.notNull(scene, "scene cannot be null");
+        Objects.requireNonNull(scene, "scene cannot be null");
         scene.removeEventHandler(MouseEvent.MOUSE_MOVED, mouseMovedEventHandler);
         scene.removeEventHandler(MouseEvent.MOUSE_PRESSED, mousePressedEventHandler);
         scene.removeEventHandler(MouseEvent.MOUSE_DRAGGED, mouseDraggedEventHandler);
     }
 
     private void addSceneListeners(Scene scene) {
-        Assert.notNull(scene, "scene cannot be null");
+        Objects.requireNonNull(scene, "scene cannot be null");
         scene.addEventHandler(MouseEvent.MOUSE_MOVED, mouseMovedEventHandler);
         scene.addEventHandler(MouseEvent.MOUSE_PRESSED, mousePressedEventHandler);
         scene.addEventHandler(MouseEvent.MOUSE_DRAGGED, mouseDraggedEventHandler);

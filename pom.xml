@@ -5,7 +5,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>3.2.0</version>
+        <version>3.2.5</version>
     </parent>
 
     <groupId>com.github.yoep</groupId>
@@ -48,12 +48,12 @@
         <maven.compiler.target>17</maven.compiler.target>
 
         <!-- Dependencies -->
-        <javafx.version>21.0.1</javafx.version>
+        <javafx.version>22.0.1</javafx.version>
 
         <!-- Test Dependencies -->
-        <junit.jupiter.engine.version>5.10.1</junit.jupiter.engine.version>
+        <junit.jupiter.engine.version>5.10.2</junit.jupiter.engine.version>
         <mockito.inline.version>5.2.0</mockito.inline.version>
-        <mockito.junit.jupiter.version>5.7.0</mockito.junit.jupiter.version>
+        <mockito.junit.jupiter.version>5.11.0</mockito.junit.jupiter.version>
         <testfx.junit.version>4.0.17</testfx.junit.version>
 
         <!-- Plugins -->
@@ -194,6 +194,13 @@
             </plugin>
         </plugins>
     </build>
+    <repositories>
+        <repository>
+            <id>maven_central</id>
+            <name>Maven Central</name>
+            <url>https://repo.maven.apache.org/maven2/</url>
+        </repository>
+    </repositories>
 
     <profiles>
         <profile>
