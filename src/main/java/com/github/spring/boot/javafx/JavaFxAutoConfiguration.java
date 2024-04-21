@@ -7,7 +7,9 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 
 /**
- * The auto configuration for JavaFX.
+ * Configuration class for auto-configuring JavaFX related beans.
+ * This class imports other configuration classes responsible for configuring
+ * fonts, locale text, and views in a JavaFX application.
  */
 @Configuration
 @Import({
