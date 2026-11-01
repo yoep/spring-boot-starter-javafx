@@ -49,12 +49,7 @@ class ScaleAwareImplTest {
     void testScale_whenInitialScaleIsGiven_shouldInitializeSceneWithTheGivenScale() {
         float scale = 1.5f;
         AtomicReference<Scale> scaleHolder = new AtomicReference<>();
-        when(transforms.setAll(isA(Scale.class))).thenAnswer(invocation -> {
-            scaleHolder.set(invocation.getArgument(0, Scale.class));
-            return true;
-        });
-        when(scene.widthProperty()).thenReturn(new SimpleDoubleProperty());
-        when(scene.heightProperty()).thenReturn(new SimpleDoubleProperty());
+        setupSceneHeightPropertyAndWidthPropertyAndSetAllStubs(scaleHolder);
 
         controller.scale(scene, root, scale);
         Scale result = scaleHolder.get();
@@ -71,12 +66,7 @@ class ScaleAwareImplTest {
         float initialScale = 1.0f;
         float expectedScale = 1.8f;
         AtomicReference<Scale> scaleHolder = new AtomicReference<>();
-        when(transforms.setAll(isA(Scale.class))).thenAnswer(invocation -> {
-            scaleHolder.set(invocation.getArgument(0, Scale.class));
-            return true;
-        });
-        when(scene.widthProperty()).thenReturn(new SimpleDoubleProperty());
-        when(scene.heightProperty()).thenReturn(new SimpleDoubleProperty());
+        setupSceneHeightPropertyAndWidthPropertyAndSetAllStubs(scaleHolder);
 
         controller.scale(scene, root, initialScale);
         controller.onScaleChanged(expectedScale);
@@ -88,5 +78,14 @@ class ScaleAwareImplTest {
     }
 
     static class MyController extends ScaleAwareImpl {
+    }
+
+    private void setupSceneHeightPropertyAndWidthPropertyAndSetAllStubs(final AtomicReference<Scale> scaleHolder) {
+        when(transforms.setAll(isA(Scale.class))).thenAnswer(invocation -> {
+            scaleHolder.set(invocation.getArgument(0, Scale.class));
+            return true;
+        });
+        when(scene.widthProperty()).thenReturn(new SimpleDoubleProperty());
+        when(scene.heightProperty()).thenReturn(new SimpleDoubleProperty());
     }
 }
